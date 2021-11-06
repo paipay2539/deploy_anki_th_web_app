@@ -1,0 +1,13 @@
+{% extends 'app_01/base.html' %}
+
+{% block title %} <title> Post details </title> {% endblock %}
+
+{% block content %} 
+
+  <div class="contrainer">
+    <h1>{{ single_post.title }}</h1>
+    <p>{{ single_post.body }}</p>
+    <p>{{ id }}</p>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Anki Card Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+
+    /*########################## My Code ################################## */
+    #main_topic {
+      text-align: center;
+    }
+    #menu_label {
+      text-align: center;
+      font-weight: bold;
+      font-size: 225%;
+    }
+    #menu {
+      text-align: center;
+      font-size: 150%;
+    }
+    #menu :hover {
+      background-color: #2f00ff;
+      color: rgb(172, 201, 172);
+    }
+    .button1 {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 10px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+    .mode_button {
+      background-color: #FFCC99;
+      border: 2px solid #000000;
+      border-radius: 16px;
+    }    
+    .mode_button:hover {
+      background-color: #f89532;
+      padding: 10px 20px;
+    }
+    .mode_button-hover {
+      background-color: #f89532;
+      padding: 10px 20px;
+    }
+
+    .download_button {
+      background-color: #ffffff00;
+      border-radius: 16px;
+    }    
+    .download_button:hover {
+      background-color: #32f864;
+    }
+    
+    .kuni_flag {
+      -webkit-filter: drop-shadow(1px 1px 0 black)
+                      drop-shadow(-1px -1px 0 black);
+      filter: drop-shadow(1px 1px 0 black) 
+              drop-shadow(-1px -1px 0 black);
+    }
+    .download_img {
+      -webkit-filter: drop-shadow(1px 1px 0 black)
+                      drop-shadow(-1px -1px 0 black);
+      filter: drop-shadow(1px 1px 0 black) 
+              drop-shadow(-1px -1px 0 black);
+    }
+    .divOuter{
+      display:inline;
+    }
+    .divInner1 {
+      float:left;
+      width:20%;
+    }
+    .divInner2{
+      float:left;
+      width:80%;
+    }
+    .scroller{
+      width:100%;;
+      height:350px;
+      line-height:2em;
+      overflow:scroll;
+      padding:5px;
+      background-color:#ffffff;
+      color:#714D03;
+      order:4px double #DEBB07;
+      resize: none;
+    }
+    .grid-container {
+      display: grid;
+      grid-gap: 50px 100px;
+      grid-template-columns: auto auto auto auto;
+      background-color: #ffffff00;
+      padding: 10px;
+    }
+    .grid-item {
+      background-color: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      font-size: 30px;
+      text-align: center;
+    }
+    .center_text {
+      text-align: center;
+    }
+    #loading {
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0.95;
+      background-color: #fff;
+      z-index: 99;
+    }
+    #loading-image {
+      z-index: 100;
+    }
+
+    /*############################################################################ */
+
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {
+      height: 1500px
+    }
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 300%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+
+      .row.content {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-10">
+        <h2 id="main_topic"><large>Anki Japanese & English To Thai Card Generator</large></h2>
+        <hr>
+        {% block content %} {% endblock %}
+        
+      </div>      
+
+      <div class="col-sm-2 sidenav">
+        <h4 id="menu_label">Menu</h4>
+        <ul class="nav nav-pills nav-stacked">
+          <li id="menu" class="{% if request.get_full_path == '/home/' %}active{% endif %}">
+            <a href="\home">Home</a>
+          </li>
+          <li id="menu" class="{% if request.get_full_path == '/guide/' %}active{% endif %}">
+            <a href="\guide">Guide</a>
+          </li>
+          <li id="menu" class="{% if request.get_full_path == '/try_it/' %}active{% endif %}">
+            <a href="\try_it">Try it !</a>
+          </li>
+          <li id="menu" class="{% if request.get_full_path == '/shared_deck/' %}active{% endif %}">
+            <a href="\shared_deck">Shared Deck</a>
+          </li>
+        </ul>
+        <br>
+
+        <!--
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search ">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+        </div>
+        -->
+      </div>
+
+
+    </div>
+  </div>
+
+  <footer class="container-fluid">
+    <p>Footer Text</p>
+  </footer>
+
+  
+  <script>
+    /* ###################################### My Code ############################################## */
+    var button_jp_th_status = "OFF";
+    var button_en_th_status = "OFF";
+    const button_jp_th_doc = document.getElementById("button_jp_th");
+    const button_en_th_doc = document.getElementById("button_en_th");
+    
+
+    /* ใช้พวก button_jp_th_doc.style.backgroundColor หลัง js ทำงานแล้วจะ 
+    ทำให้ hover หยุดทำงาน ต้องสร้าง class ใหม่มาแทน */
+
+    function button_jp_th_pressed() {
+      if (button_jp_th_status === "ON"){
+        button_jp_th_status = "OFF";
+        button_jp_th_doc.className  = "button1 mode_button";
+      } else {
+        button_jp_th_status = "ON";
+        button_jp_th_doc.className  = "button1 mode_button mode_button-hover";
+        if (button_en_th_status === "ON"){
+          button_en_th_status = "OFF";
+          button_en_th_doc.className  = "button1 mode_button";
+        }
+      }
+      $('#js_data_input1').val(button_jp_th_status);
+      $('#js_data_input2').val(button_en_th_status);
+    }
+    function button_en_th_pressed() {
+      if (button_en_th_status === "ON"){
+        button_en_th_status = "OFF";
+        button_en_th_doc.className  = "button1 mode_button";
+      } else {
+        button_en_th_status = "ON";
+        button_en_th_doc.className  = "button1 mode_button mode_button-hover";
+        if (button_jp_th_status === "ON"){
+          button_jp_th_status = "OFF";
+          button_jp_th_doc.className  = "button1 mode_button";
+        }
+      }
+      $('#js_data_input1').val(button_jp_th_status);
+      $('#js_data_input2').val(button_en_th_status);
+    }
+
+    function alert_box(parameter1, parameter2, parameter3) {
+      /*
+      var txt;
+      if (confirm("Press a button!")) {
+        txt = "You pressed OK!";
+      } else {
+        txt = "You pressed Cancel!";
+      }
+      document.getElementById("button_jp_th").innerHTML = txt;
+      */
+
+      var x = document.getElementById("button_jp_th");
+      
+      
+      counter++;
+      alert(counter);
+
+    }
+    // alert_box(1,2,3)
+
+    $('#loading').hide();
+
+    function show_loading_generate(){
+      if(document.getElementById("input_text_id").value != ''){
+        if (button_en_th_status === "ON" || button_jp_th_status === "ON"){
+          document.getElementById("form1").submit();
+          $('#loading').show();
+        }
+        else{
+          alert("Please select Mode.");
+        }
+      }
+      else{
+        alert("Please fill input before generate.");
+      }
+    }
+
+    function show_loading_txt(){
+      if(document.getElementById("output_text_id").value != ''){
+        document.getElementById("form2").submit();
+      }
+      else{
+        alert("Please generate output before download.");
+      }
+    }
+    function show_loading_mp3(){
+      if(document.getElementById("output_text_id").value == ''){
+        $('#loading').show();
+        $("#tk").val($("[name='csrfmiddlewaretoken']").val());
+       
+        document.getElementById("form3").submit();
+        $("[name='csrfmiddlewaretoken']").val($("#loading").val());
+
+      }
+      else{
+        alert("Please generate output before download.");
+      }
+    }
+
+    $.ajaxSetup({
+      data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+
+    
+    $(window).focus(function(){
+      if($("#tk").val() == $("[name='csrfmiddlewaretoken']").val()){
+        location.reload();
+      }
+    });
+
+    $(window).keypress(function(){
+      alert($("[name='csrfmiddlewaretoken']").val() + "@@@@@" +  $("#tk").val());
+    });
+
+    /* ######################################################################################## */
+  </script>
+
+
+</body>
+
+</html>

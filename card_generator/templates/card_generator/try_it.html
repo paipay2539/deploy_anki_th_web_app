@@ -1,0 +1,158 @@
+{% extends 'card_generator/base.html ' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="container">
+  <div class="row center_text">
+    <div class="col-md-2" style="white-space: nowrap;">
+      <br><h2>Mode select:</h2><br>
+    </div>
+    <div class="col-md-4">
+      <button id="button_jp_th" class='button1 mode_button' onclick="button_jp_th_pressed()">
+        <img class='kuni_flag' src="{% static 'card_generator/images/Japan.png' %}" width="150" height="100">
+        <img class='kuni_flag' src="{% static 'card_generator/images/Thailand.png' %}" width="150" height="100">
+      </button>
+    </div>
+    <div class="col-md-4">
+
+      <button id="button_en_th" class='button1 mode_button' onclick="button_en_th_pressed()">
+        <img class='kuni_flag' src="{% static 'card_generator/images/United-Kingdom.png' %}" width="150" height="100">
+        <img class='kuni_flag' src="{% static 'card_generator/images/Thailand.png' %}" width="150" height="100">
+      </button>
+    </div>
+ 
+  </div>
+
+  <hr>
+  <div class="row center_text">
+    <div class="col-md-2">
+      <h2>Input</h2>
+    </div>
+    <div class="col-md-4">
+      <h2>Output</h2>
+    </div>
+    <div class="col-md-2">
+      <h2>Download</h2>
+    </div>
+    <div class="col-md-4">
+      <h2>Generate</h2>
+    </div>
+  </div>
+  <div class="row center_text">
+    <form action="" method="POST" id="form1">
+      {% csrf_token %}
+      <input type="hidden" name="button_jp_th_status" value="" id="js_data_input1">
+      <input type="hidden" name="button_en_th_status" value="" id="js_data_input2">
+      <div class="col-md-2">
+        <textarea class="scroller" name="input_text" cols="40" value="{{ input_text }}" id = "input_text_id"
+          placeholder="大事&#13;&#10;漢字&#13;&#10;宝石&#13;&#10;衛星&#13;&#10;誤り&#13;&#10;">{{ input_text_post }}</textarea>
+      </div>
+    </form>
+
+    
+    <div class="col-md-4">
+      <textarea class="scroller" name="output_text" cols="100" placeholder="" id = "output_text_id" readonly>{{ output_text }}</textarea>
+    </div>
+    <div class="col-md-2">
+      <button id="button_donwload_txt" class='button1 download_button' onclick="show_loading_txt()">
+        <img class='download_img' src="{% static 'card_generator/images/file_icon_text_txt.png' %}" width="100%"
+          height="150" style="margin-left: 8px">
+      </button>
+      <br>
+      <button id="button_donwload_mp3" class='button1 download_button' onclick="show_loading_mp3()">
+        <img class='download_img' src="{% static 'card_generator/images/file_icon_text_mp3.png' %}" width="100%"
+          height="150">
+      </button>
+    </div>
+    <div class="col-md-4">
+      <!-- <button id="button_generate" class='button1 download_button' form="form1" onclick="show_loading()"> 
+        ส่งเลยแบบไม่เช็ค text input ถ้าจะเช็คให้คอล js แล้วค่อย ใช้คำสั่ง submit form by id -->
+      <button id="button_generate" class='button1 download_button' onclick="show_loading_generate()">
+        <img class='download_img' src="{% static 'card_generator/images/ai_shigoto_makaseru.png' %}" width="100%"
+          height="300">
+      </button>
+    </div>
+  </div>
+</div>
+<hr>
+<!--
+<form action="" method="POST">
+  {% csrf_token %}
+  <label for="your_name">Your name: </label>
+  <input id="your_name" type="text" name="your_name">
+  <input id="your_name" type="text" name="your_name">
+  <input type="submit" value="OK" name="3">
+</form>
+-->
+<h2>Share Deck</h2>
+<div class='divOuter'>
+  <div class='divInner1'>
+    <div class="input-group">
+      <h4>Name:</h4>
+      <input type="text" class="form-control" placeholder="Name">
+      <br><br>
+      <h4>Deck Name:</h4>
+      <input type="text" class="form-control" placeholder="Deck Name">
+      <br><br>
+    </div>
+  </div>
+  <div class='divInner2'>
+    <h4>Leave a Comment:</h4>
+    <form role="form">
+      <div class="form-group">
+        <textarea class="form-control" rows="3" placeholder="Leave a Comment" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+  </div>
+</div>
+
+<div id="loading">
+  <img id="loading-image" src="{% static 'card_generator/images/computer_bar5_load.png' %}" alt="Loading..." />
+</div>
+
+
+
+<form action="" method="POST" id="form2">
+  {% csrf_token %}
+  <input type="hidden" name="download_text">
+</form>
+<form action="" method="POST" id="form3">
+  {% csrf_token %}
+  <input type="hidden" name="download_mp3">
+  <input type="hidden" id="tk">
+</form>
+
+
+
+<!--
+  <h2>Try It Page</h2>
+  <h5><span class="glyphicon glyphicon-time"></span> Post by Jane Dane, Sep 27, 2015.</h5>
+  <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
+  <p>Food is my passion. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+    aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+    deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+    commodo consequat.</p>
+  <br><br>
+
+  <h4><small>RECENT POSTS</small></h4>
+  <hr>
+  <h2>Officially Blogging</h2>
+  <h5><span class="glyphicon glyphicon-time"></span> Post by John Doe, Sep 24, 2015.</h5>
+  <h5><span class="label label-success">Lorem</span></h5><br>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+    est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+  <hr>
+  -->
+
+{% endblock %}
+
+

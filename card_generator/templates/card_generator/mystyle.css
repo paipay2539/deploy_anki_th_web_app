@@ -1,0 +1,48 @@
+#main_topic {
+    text-align: center;
+}
+
+#menu_label {
+    text-align: center;
+    font-weight: bold;
+    font-size: 225%;
+}
+
+#menu {
+    text-align: center;
+    font-size: 150%;
+}
+
+#menu :hover {
+    background-color: #2f00ff;
+    color: rgb(172, 201, 172);
+}
+
+.button1 {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.mode_button {
+    background-color: #FFCC99;
+    border: 2px solid #000000;
+}
+
+.mode_button:hover {
+    background-color: #fdb872;
+    padding: 10px 20px;
+}
+
+.kuni_flag {
+    -webkit-filter: drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black);
+    filter: drop-shadow(1px 1px 0 black) drop-shadow(-1px -1px 0 black);
+}

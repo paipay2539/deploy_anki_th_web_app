@@ -1,0 +1,23 @@
+{% extends 'app_01/base.html' %}
+
+{% block title %} <title> Home </title> {% endblock %}
+
+{% block content %} 
+
+  {% if data == "hello" %}
+  <p> this is hello </p>
+  {% else %}
+  <p> this is {{data}} </p>
+  {% endif %}
+
+  <div class="contrainer">
+      {% for post in all_posts %}
+      <li>
+        <a href="/post_detailas/{{ post.id }}"> 
+          {{ post.title }}
+        </a>
+      </li>
+      {% endfor %}
+  </div>
+
+{% endblock %}
