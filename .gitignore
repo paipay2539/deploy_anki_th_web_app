@@ -2,3 +2,6 @@ venv
 *.pyc
 staticfiles
 .env
+reference/data/input/text_temp.txt
+reference/data/output/text_temp_fail_output.txt
+reference/data/output/text_temp_output.txt

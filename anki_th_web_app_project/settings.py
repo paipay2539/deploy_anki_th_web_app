@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -53,8 +54,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'anki_th_web_app_project.urls'
-
-import os
 
 TEMPLATES = [
     {
@@ -142,5 +141,5 @@ STATICFILES_DIRS = [
 ]
 
 # for deploying
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
