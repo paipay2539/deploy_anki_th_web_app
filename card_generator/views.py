@@ -29,7 +29,7 @@ def try_it_page(request):
     import shutil
     import glob
 
-    file_path = os.path.realpath('../reference')
+    file_path = os.path.realpath('./reference')
     print(file_path)
 
     
@@ -52,18 +52,18 @@ def try_it_page(request):
             else:
                 lang = "en"
             input_text_post = request.POST['input_text']  
-            input_text_temp = open('../reference/data/input/text_temp.txt', "w", encoding="utf8")
+            input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
-            ankiTH.ankiTH("../reference/data/input/text_temp", gen_sound=False, exactly_mode=False, lang_select=lang)
-            output = open('../reference/data/output/text_temp_output.txt', "r", encoding="utf8")
+            ankiTH.ankiTH("./reference/data/input/text_temp", gen_sound=False, exactly_mode=False, lang_select=lang)
+            output = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
             output_text = output.read().strip('\n')
             output_dict = {"input_text_post": input_text_post, "output_text": output_text}
             output.close()
             return render(request, "card_generator/try_it.html", output_dict)
 
         if 'download_text' in request.POST:
-            output_path = '../reference/data/output/text_temp_output.txt'
+            output_path = './reference/data/output/text_temp_output.txt'
             output = open(output_path, "r", encoding="utf8")
             response = HttpResponse(output.read(), content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path)
@@ -71,9 +71,9 @@ def try_it_page(request):
             return response
 
         if 'download_mp3' in request.POST:
-            dir_name = '../reference/data/output/sound/'
-            output_filename = '../reference/data/output/sound_zip_upload'
-            ankiTH.ankiTH("../reference/data/input/text_temp", gen_sound=True, exactly_mode=False, lang_select="jp")
+            dir_name = './reference/data/output/sound/'
+            output_filename = './reference/data/output/sound_zip_upload'
+            ankiTH.ankiTH("./reference/data/input/text_temp", gen_sound=True, exactly_mode=False, lang_select="jp")
             shutil.make_archive(output_filename, 'zip', dir_name)
 
             shutil.rmtree(dir_name)
