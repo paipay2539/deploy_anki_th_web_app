@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'django-insecure-%tow39--f49*@q^))0&-7btv=izfa1pwbt82)7mct&tsnn2c#%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 #ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ["localhost", "192.168.1.104", '127.0.0.1', 'anki-th-web-app.herokuapp.com',]
