@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 import sys 
-sys.path.append('../reference')
+sys.path.append('./reference')
 import ankiTH
 
 from django.shortcuts import redirect
