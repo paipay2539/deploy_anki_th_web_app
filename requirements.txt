@@ -1,12 +1,15 @@
 asgiref==3.4.1
 beautifulsoup4==4.10.0
 bs4==0.0.1
+cached-property==1.5.2
 certifi==2021.10.8
 charset-normalizer==2.0.7
 click==8.0.3
 colorama==0.4.4
 cycler==0.10.0
 Django==3.2.8
+frozendict==2.0.7
+genanki==0.11.0
 gTTS==2.2.3
 gunicorn==20.1.0
 idna==3.2
@@ -18,8 +21,10 @@ numpy==1.21.2
 Pillow==8.3.2
 playsound==1.3.0
 pyparsing==2.4.7
+pystache==0.5.4
 python-dateutil==2.8.2
 pytz==2021.3
+PyYAML==6.0
 requests==2.26.0
 six==1.16.0
 soupsieve==2.2.1
