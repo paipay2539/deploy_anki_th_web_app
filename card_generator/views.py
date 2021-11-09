@@ -47,18 +47,31 @@ def try_it_page(request):
         # 'input_text' in request.POST ไว้เช็คว่ามี DOM input นี้อยู่รึป่าว
 
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
-            if request.POST['button_jp_th_status'] == "ON":
-                lang = "jp"
-            else:
-                lang = "en"
-            input_text_post = request.POST['input_text']  
+
+            input_text_post = request.POST['input_text']
+            lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
+            sound_status_post      = True if request.POST['sound_status'] == "ON" else False
+            exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
+
+
             input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
-            ankiTH.ankiTH("./reference/data/input/text_temp", gen_sound=False, exactly_mode=False, lang_select=lang)
-            output = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
-            output_text = output.read().strip('\n')
-            output_dict = {"input_text_post": input_text_post, "output_text": output_text}
+            
+            ankiTH.ankiTH("./reference/data/input/text_temp.txt", 
+                            gen_sound    = sound_status_post, 
+                            exactly_mode = exact_find_status_post, 
+                            lang_select  = lang_status_post)
+            ankiTH.gen_apkg("./reference/data/output/text_temp_output.txt")
+            
+            output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
+            fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
+            output_text      = output.read().strip('\n')
+            fail_output_text = fail_output.read().strip('\n')
+            
+            output_dict = {"input_text_post": input_text_post, 
+                           "output_text": output_text,
+                           "fail_output_text": fail_output_text}
             output.close()
             return render(request, "card_generator/try_it.html", output_dict)
 
@@ -89,7 +102,13 @@ def try_it_page(request):
             # 'inline; filename=' มันจะพยายามเปิดบน browser ก่อนเช่นพวก pdf
             # ถ้าไฟล์เปิดบน browser ไม่ได้ มันจะโหลดเองทั้ง attachment และ inline
 
-
+        if 'download_apkg' in request.POST:
+            output_path = "./reference/data/output/output.apkg"
+            output = open(output_path, "rb")
+            response = HttpResponse(output, content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path) 
+            output.close()
+            return response
             
     return render(request, "card_generator/try_it.html")
 
