@@ -344,6 +344,26 @@
       }
     }
 
+    function check_output(){
+      if("{{lang_status}}" === "jp"){
+        button_jp_th_pressed();
+        window.scrollTo(0, 720);
+      } 
+      else if ("{{lang_status}}" === "en") {
+        button_en_th_pressed();
+        window.scrollTo(0, 720);
+      }
+
+      if("{{sound_status}}" === "True"){
+        button_sound_pressed();
+      }
+      
+      if("{{exact_find_status}}" === "True"){
+        button_exact_find_pressed();
+      }
+    }
+    check_output();
+  
     /* ############################### try loading ############################################### */
     /*
     $('#loading').hide();
@@ -401,8 +421,7 @@
     */
     /* ######################################################################################## */
   </script>
-
-
+  
 </body>
 
 </html>

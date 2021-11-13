@@ -10,8 +10,8 @@ sys.path.append('./reference')
 import ankiTH
 
 from django.shortcuts import redirect
-
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 
 def home_page(request):
     # return HttpResponse("w")
@@ -37,15 +37,21 @@ def try_it_page(request):
         
     if output_exist == 1:
         request.session['output_exist'] = 0
-        input_text_post = request.session.get('input_text_post')
+        input_text_post        = request.session.get('input_text_post')
+        lang_status_post       = request.session.get('lang_status_post')
+        sound_status_post      = request.session.get('sound_status_post')
+        exact_find_status_post = request.session.get('exact_find_status_post')
         
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
         fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
         fail_output_text = fail_output.read().strip('\n')
-        output_dict = {"input_text_post": input_text_post, 
-                        "output_text": output_text,
-                        "fail_output_text": fail_output_text}
+        output_dict = { "input_text_post"   : input_text_post, 
+                        "output_text"       : output_text,
+                        "fail_output_text"  : fail_output_text,
+                        "lang_status"       : lang_status_post,
+                        "sound_status"      : sound_status_post,
+                        "exact_find_status" : exact_find_status_post }
         output.close()
         return render(request, "card_generator/try_it.html", output_dict)
 
@@ -65,15 +71,16 @@ def try_it_page(request):
 
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
 
-            from django.http import StreamingHttpResponse
-            
-            request.session['output_exist'] = 1
-            input_text_post = request.POST['input_text']  
-            request.session['input_text_post'] = input_text_post
-            
             lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
             sound_status_post      = True if request.POST['sound_status'] == "ON" else False
             exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
+            input_text_post        = request.POST['input_text']  
+            
+            request.session['output_exist'] = 1
+            request.session['input_text_post'] = input_text_post
+            request.session['lang_status_post'] = lang_status_post
+            request.session['sound_status_post'] = sound_status_post
+            request.session['exact_find_status_post'] = exact_find_status_post
 
             input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8", newline='')
             input_text_temp.write(input_text_post) 
