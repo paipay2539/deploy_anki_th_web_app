@@ -313,7 +313,9 @@ def django_request(request):
     fail_output = open(parent_path + "/output/" + input_text_file_name +'_fail_output.txt', "w", encoding="utf8")
 
     for vocab_cnt, vocab in enumerate(vocab_lst):
-        yield "555555555555" 
+
+        yield "<div>%s</div>\n" % str(vocab)
+        yield " " * 1024
         if 'jp' in lang_select:
             meaning_lst = search_vocab_jp(vocab, exactly_mode)
             if exactly_mode is False:
@@ -349,13 +351,9 @@ def django_request(request):
     output.close()
     
     gen_apkg("./reference/data/output/text_temp_output.txt")
-    for x in range(1,5):
-        yield "<div>%s</div>\n" % x
-        yield " " * 1024  # Encourage browser to render incrementally
-        time.sleep(0.5)
+        
     yield "</body></html>\n"
-    yield "<script>window.location.href = 'show_output';</script>"
-
+    yield "<script>window.location.href = '';</script>"
     
 
 if __name__ == '__main__':

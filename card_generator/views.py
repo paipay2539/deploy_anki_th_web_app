@@ -6,6 +6,7 @@ from django.shortcuts import render
 #from .models import Post
 
 input_text_post = 0
+output_exist = 0
 
 import sys 
 sys.path.append('./reference')
@@ -33,6 +34,20 @@ def try_it_page(request):
     file_path = os.path.realpath('./reference')
     print(file_path)
 
+    global input_text_post, output_exist
+    if output_exist == 1:
+        output_exist = 0
+        output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
+        fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
+        output_text      = output.read().strip('\n')
+        fail_output_text = fail_output.read().strip('\n')
+        
+        output_dict = {"input_text_post": input_text_post, 
+                        "output_text": output_text,
+                        "fail_output_text": fail_output_text}
+        output.close()
+        return render(request, "card_generator/try_it.html", output_dict)
+
     
     if request.method == 'GET':
         print("welcome to try_it_page")
@@ -50,7 +65,7 @@ def try_it_page(request):
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
 
             from django.http import StreamingHttpResponse
-            global input_text_post
+            output_exist = 1
             input_text_post = request.POST['input_text']
             resp = StreamingHttpResponse(ankiTH.django_request(request))
             return resp
@@ -103,17 +118,6 @@ def generate_output(request):
     return HttpResponse("w")
     return render(request, "card_generator/try_it.html", {"output_text":"hello"})
 
-def show_output(request):
-    output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
-    fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
-    output_text      = output.read().strip('\n')
-    fail_output_text = fail_output.read().strip('\n')
-    
-    output_dict = {"input_text_post": input_text_post, 
-                    "output_text": output_text,
-                    "fail_output_text": fail_output_text}
-    output.close()
-    return render(request, "card_generator/try_it.html", output_dict)
 
 '''
 from django.views.decorators.http import condition
