@@ -5,9 +5,6 @@ from django.shortcuts import render
 
 #from .models import Post
 
-input_text_post = 0
-output_exist = 0
-
 import sys 
 sys.path.append('./reference')
 import ankiTH
@@ -34,13 +31,6 @@ def try_it_page(request):
     file_path = os.path.realpath('./reference')
     print(file_path)
 
-    global input_text_post, output_exist
-    
-    
-    
-
-    
-    
     output_exist = request.session.get('output_exist')
     if output_exist is None:
         request.session['output_exist'] = 0  
@@ -74,9 +64,10 @@ def try_it_page(request):
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
 
             from django.http import StreamingHttpResponse
-            output_exist = 1
             
-            input_text_post = request.POST['input_text']
+            request.session['output_exist'] = 0
+            request.session['input_text_post'] = request.POST['input_text']  
+            
             lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
             sound_status_post      = True if request.POST['sound_status'] == "ON" else False
             exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
