@@ -75,7 +75,7 @@ def try_it_page(request):
             sound_status_post      = True if request.POST['sound_status'] == "ON" else False
             exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
 
-            input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
+            input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8", newline='')
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
 
@@ -97,11 +97,11 @@ def try_it_page(request):
         if 'download_mp3' in request.POST:
             dir_name = './reference/data/output/sound/'
             output_filename = './reference/data/output/sound_zip_upload'
-            ankiTH.ankiTH("./reference/data/input/text_temp", gen_sound=True, exactly_mode=False, lang_select="jp")
+            
             shutil.make_archive(output_filename, 'zip', dir_name)
 
-            shutil.rmtree(dir_name)
-            os.mkdir(dir_name)
+            # shutil.rmtree(dir_name)
+            # os.mkdir(dir_name)
 
             output_path = output_filename + ".zip"
             output = open(output_path, "rb")
