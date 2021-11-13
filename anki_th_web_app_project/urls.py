@@ -21,7 +21,7 @@ from card_generator import views
 urlpatterns = [
     path('admin/'      , admin.site.urls),
     path(''            , views.home_page),
-    path('home/'       , views.home_page),
+    path('home/'       , views.stream_response),
     path('guide/'      , views.guide_page),
     path('try_it/'     , views.try_it_page),
     path('shared_deck/', views.shared_deck_page),
