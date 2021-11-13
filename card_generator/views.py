@@ -30,11 +30,6 @@ def try_it_page(request):
 
     file_path = os.path.realpath('./reference')
     print(file_path)
-
-    
-    input_text_post = request.session.get('input_text_post')
-    if input_text_post is None:
-        request.session['input_text_post'] = 0  
         
     output_exist = request.session.get('output_exist')
     if output_exist is None:
@@ -42,6 +37,8 @@ def try_it_page(request):
         
     if output_exist == 1:
         request.session['output_exist'] = 0
+        input_text_post = request.session.get('input_text_post')
+        
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
         fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
@@ -70,7 +67,7 @@ def try_it_page(request):
 
             from django.http import StreamingHttpResponse
             
-            request.session['output_exist'] = 0
+            request.session['output_exist'] = 1
             input_text_post = request.POST['input_text']  
             request.session['input_text_post'] = input_text_post
             
