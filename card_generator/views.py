@@ -35,8 +35,18 @@ def try_it_page(request):
     print(file_path)
 
     global input_text_post, output_exist
-    if output_exist == 1:
+    
+    
+    
 
+    
+    
+    output_exist = request.session.get('output_exist')
+    if output_exist is None:
+        request.session['output_exist'] = 0  
+        
+    if output_exist == 1:
+        request.session['output_exist'] = 0
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
         fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
@@ -64,7 +74,7 @@ def try_it_page(request):
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
 
             from django.http import StreamingHttpResponse
-            output_exist = 1
+            request.session['output_exist'] = 1
             
             input_text_post = request.POST['input_text']
             lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
