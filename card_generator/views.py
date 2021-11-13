@@ -79,6 +79,12 @@ def try_it_page(request):
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
 
+            sound_path = './reference/data/output/sound/'
+            shutil.rmtree(sound_path)
+            os.mkdir(sound_path)
+            sound_temp_file = open(sound_path+'#text_temp_0.mp3', "w")
+            sound_temp_file.close()
+
             resp = StreamingHttpResponse(ankiTH.django_request(  
                                     input_text   = "./reference/data/input/text_temp.txt", 
                                     gen_sound    = sound_status_post, 
@@ -97,12 +103,7 @@ def try_it_page(request):
         if 'download_mp3' in request.POST:
             dir_name = './reference/data/output/sound/'
             output_filename = './reference/data/output/sound_zip_upload'
-            
             shutil.make_archive(output_filename, 'zip', dir_name)
-
-            shutil.rmtree(dir_name)
-            os.mkdir(dir_name)
-
             output_path = output_filename + ".zip"
             output = open(output_path, "rb")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
