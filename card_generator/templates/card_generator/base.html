@@ -326,6 +326,23 @@
       }
     }
 
+    function download_txt(){
+      if(document.getElementById("output_text_id").value != ''){
+        document.getElementById("form3").submit();
+      }
+      else{
+        alert("Please generate output before download.");
+      }
+    }
+
+    function download_mp3(){
+      if(document.getElementById("output_text_id").value != ''){
+        document.getElementById("form4").submit();
+      }
+      else{
+        alert("Please generate output before download.");
+      }
+    }
 
     /* ############################### try loading ############################################### */
     /*

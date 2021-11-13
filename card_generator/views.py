@@ -86,10 +86,10 @@ def try_it_page(request):
                                     lang_select  = lang_status_post))
             return resp
 
-        if 'download_text' in request.POST:
+        if 'download_txt' in request.POST:
             output_path = './reference/data/output/text_temp_output.txt'
             output = open(output_path, "r", encoding="utf8")
-            response = HttpResponse(output.read(), content_type="application/vnd.ms-excel")
+            response = HttpResponse(output, content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path)
             output.close()
             return response

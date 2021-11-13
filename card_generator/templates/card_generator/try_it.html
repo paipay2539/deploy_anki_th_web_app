@@ -105,12 +105,12 @@
   </div>
 
   <div class="col-md-2">
-    <button id="button_donwload_txt" class='button1 download_button' onclick="show_loading_txt()">
+    <button id="button_donwload_txt" class='button1 download_button' onclick="download_txt()">
       <img class='download_img' src="{% static 'card_generator/images/file_icon_text_txt.png' %}" width="100%"
         height="150" style="margin-left: 8px">
     </button>
     <br>
-    <button id="button_donwload_mp3" class='button1 download_button' onclick="show_loading_mp3()">
+    <button id="button_donwload_mp3" class='button1 download_button' onclick="download_mp3()">
       <img class='download_img' src="{% static 'card_generator/images/file_icon_text_mp3.png' %}" width="100%"
         height="150">
     </button>
@@ -166,7 +166,14 @@
   {% csrf_token %}
   <input type="hidden" name="download_apkg">
 </form>
-
+<form action="" method="POST" id="form3">
+  {% csrf_token %}
+  <input type="hidden" name="download_txt">
+</form>
+<form action="" method="POST" id="form4">
+  {% csrf_token %}
+  <input type="hidden" name="download_mp3">
+</form>
 
 <!--
 <form action="" method="POST" id="form2">
