@@ -35,6 +35,7 @@ def try_it_page(request):
     print(file_path)
 
     global input_text_post, output_exist
+    print("output_exist", output_exist)
     if output_exist == 1:
         output_exist = 0
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
