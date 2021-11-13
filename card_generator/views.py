@@ -31,6 +31,11 @@ def try_it_page(request):
     file_path = os.path.realpath('./reference')
     print(file_path)
 
+    
+    input_text_post = request.session.get('input_text_post')
+    if input_text_post is None:
+        request.session['input_text_post'] = 0  
+        
     output_exist = request.session.get('output_exist')
     if output_exist is None:
         request.session['output_exist'] = 0  
@@ -66,7 +71,8 @@ def try_it_page(request):
             from django.http import StreamingHttpResponse
             
             request.session['output_exist'] = 0
-            request.session['input_text_post'] = request.POST['input_text']  
+            input_text_post = request.POST['input_text']  
+            request.session['input_text_post'] = input_text_post
             
             lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
             sound_status_post      = True if request.POST['sound_status'] == "ON" else False
