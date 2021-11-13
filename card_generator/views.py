@@ -100,8 +100,8 @@ def try_it_page(request):
             
             shutil.make_archive(output_filename, 'zip', dir_name)
 
-            # shutil.rmtree(dir_name)
-            # os.mkdir(dir_name)
+            shutil.rmtree(dir_name)
+            os.mkdir(dir_name)
 
             output_path = output_filename + ".zip"
             output = open(output_path, "rb")
