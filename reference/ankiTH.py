@@ -335,6 +335,7 @@ def django_request(request):
             if gen_sound is True:
                 sound_number = input_text_file_name + '_' + str(vocab_cnt)
                 sound_call_name = '[sound:#' + sound_number + '.mp3]'
+                print("5555555555555555")
                 text2sound(vocab, sound_number, parent_path)
             else:
                 sound_call_name = ''
