@@ -11,7 +11,7 @@ sys.dont_write_bytecode = True
 import rainbow_divider_lib as rdl
 
 import genanki
-
+import random
 
 def progress(count, total, suffix=''):
     bar_len = 60
@@ -222,14 +222,16 @@ def ankiTH(input_text, gen_sound=False, exactly_mode=False, lang_select="jp"):
     output.close()
     # search_vocab_en('carrot')
 
-
 def gen_apkg(path="data/output/text_temp_output.txt"):
     # need to run from cd reference ( run from outer will can't use relative path)
     # where run script, that is workspace path
     # ankiTH("data/input/text_temp.txt", gen_sound=True, exactly_mode=False, lang_select="jp") 
     parent_path = os.path.dirname(path)
+    
+    model_id = random.randrange(1 << 30, 1 << 31)
+     
     my_model = genanki.Model(
-                    1091735104,
+                    model_id,
                     'Simple Model with Media',
                     fields=[
                         {'name': 'หน้า'},
@@ -238,14 +240,14 @@ def gen_apkg(path="data/output/text_temp_output.txt"):
                     ],
                     templates=[
                         {
-                        'name': 'anki_th_card',
+                        'name': 'anki_th_web_app_card',
                         'qfmt': '{{หน้า}}',
                         'afmt': '{{furigana}}<hr>{{ย้อนกลับ}}',
                         },
                     ],
                     css='.card {font-family: arial;font-size: 20px;text-align: center;color: black;background-color: white;}'
                     )
-    my_deck = genanki.Deck(1091735104, 'anki_th')
+    my_deck = genanki.Deck(model_id, 'anki_th')
     my_package = genanki.Package(my_deck)
     
     deck_list = read_txt(path)
@@ -283,26 +285,28 @@ def main():
     # ankiTH('vocab_jp', gen_sound=True, exactly_mode=False)
     # ankiTH('vocab_en', gen_sound=True, exactly_mode=False)
 
-def django_request(request):
+def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select="jp"):
     
+    #########################################################################################################
     
-    input_text_post = request.POST['input_text']
-    lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
-    sound_status_post      = True if request.POST['sound_status'] == "ON" else False
-    exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
-
-
-    input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
-    input_text_temp.write(input_text_post) 
-    input_text_temp.close()
-    
-    import time
     yield "<html><body>\n"  
     
-    input_text = "./reference/data/input/text_temp.txt"
-    gen_sound    = sound_status_post, 
-    exactly_mode = exact_find_status_post, 
-    lang_select  = lang_status_post
+    yield '<link rel="preconnect" href="https://fonts.googleapis.com">'
+    yield '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+    yield '<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">'
+    yield '<style>.centered { position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);}</style>'
+    yield '<head><title>Loading Page</title><meta charset="utf-8">'
+    yield '<meta name="viewport" content="width=device-width, initial-scale=1">'
+    yield '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">'
+    yield '</head><body><div class="container centered">'
+    yield '<div class="text-center"><img height="300" src="https://1.bp.blogspot.com/-hNJ8P9SCy50/Wi4fw8ncKSI/AAAAAAABIqc/7Rl4i1B2uB0cJxU-M0VmNWRupS_GFRo2wCLcBGAs/s400/animal_chara_mogura_kouji.png">'
+    yield '<h2 style="font-family: Yuji Syuku, serif;">Waiting for generate card</h2></div>'
+    yield '<div class="progress" style="height:30; border-radius: 25px; background: rgb(229,234,254);">'
+    yield '<div id="progress_bar" class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"'
+    yield 'style="border-radius: 25px; width:0%; background: rgb(0,212,255) linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(0,255,55,1) 100%)">'
+    yield '<span class="sr-only"></span></div></div></div>'
+    
+    ######################################################################################################### 
     
     parent_path = os.path.dirname(os.path.dirname(input_text))
     input_text_file_name = os.path.basename(input_text)
@@ -313,9 +317,16 @@ def django_request(request):
     fail_output = open(parent_path + "/output/" + input_text_file_name +'_fail_output.txt', "w", encoding="utf8")
 
     for vocab_cnt, vocab in enumerate(vocab_lst):
-
-        yield "<div>%s</div>\n" % str(vocab)
-        yield " " * 1024
+        
+        #############################################
+        
+        # yield "<div>%s</div>\n" % str(vocab)+"\n"
+        # yield " " * 1024
+        percent_int = int(vocab_cnt/(len(vocab_lst)-1)*100)
+        yield '<script>document.getElementById("progress_bar").style.width = "'+ str(percent_int) +'%";</script>'
+        
+        #############################################
+        
         if 'jp' in lang_select:
             meaning_lst = search_vocab_jp(vocab, exactly_mode)
             if exactly_mode is False:
@@ -335,7 +346,6 @@ def django_request(request):
             if gen_sound is True:
                 sound_number = input_text_file_name + '_' + str(vocab_cnt)
                 sound_call_name = '[sound:#' + sound_number + '.mp3]'
-                print("5555555555555555")
                 text2sound(vocab, sound_number, parent_path)
             else:
                 sound_call_name = ''
@@ -351,11 +361,11 @@ def django_request(request):
         progress(vocab_cnt, len(vocab_lst)-1)
     output.close()
     
-    gen_apkg("./reference/data/output/text_temp_output.txt")
-        
+    ######################################################################
+    gen_apkg(parent_path + "/output/" + input_text_file_name +'_output.txt')
     yield "</body></html>\n"
     yield "<script>window.location.href = '';</script>"
-    
+    ######################################################################
 
 if __name__ == '__main__':
     gen_apkg()

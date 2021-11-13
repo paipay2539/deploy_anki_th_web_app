@@ -35,14 +35,12 @@ def try_it_page(request):
     print(file_path)
 
     global input_text_post, output_exist
-    print("output_exist", output_exist)
     if output_exist == 1:
         output_exist = 0
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
         fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
         fail_output_text = fail_output.read().strip('\n')
-        
         output_dict = {"input_text_post": input_text_post, 
                         "output_text": output_text,
                         "fail_output_text": fail_output_text}
@@ -67,11 +65,22 @@ def try_it_page(request):
 
             from django.http import StreamingHttpResponse
             output_exist = 1
-            input_text_post = request.POST['input_text']
-            resp = StreamingHttpResponse(ankiTH.django_request(request))
-            return resp
-
             
+            input_text_post = request.POST['input_text']
+            lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
+            sound_status_post      = True if request.POST['sound_status'] == "ON" else False
+            exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
+
+            input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
+            input_text_temp.write(input_text_post) 
+            input_text_temp.close()
+
+            resp = StreamingHttpResponse(ankiTH.django_request(  
+                                    input_text   = "./reference/data/input/text_temp.txt", 
+                                    gen_sound    = sound_status_post, 
+                                    exactly_mode = exact_find_status_post, 
+                                    lang_select  = lang_status_post))
+            return resp
 
         if 'download_text' in request.POST:
             output_path = './reference/data/output/text_temp_output.txt'
