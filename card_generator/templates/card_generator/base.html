@@ -62,6 +62,9 @@
     .download_button:hover {
       background-color: #32f864;
     }
+    .download_button-hover {
+      background-color: #32f88b;
+    }
     
     .kuni_flag {
       -webkit-filter: drop-shadow(1px 1px 0 black)
@@ -284,9 +287,11 @@
       if (sound_status === "ON"){
         sound_status = "OFF";
         $("#sound_img").attr("src","{% static 'card_generator/images/switch_off.png' %}");
+        //$("#button_sound").attr("class","button1 download_button");
       } else {
         sound_status = "ON";
         $("#sound_img").attr("src","{% static 'card_generator/images/switch_on.png' %}");
+        //$("#button_sound").attr("class","button1 download_button download_button-hover");
       }
       $('#js_data_sound_status').val(sound_status);
     }
@@ -294,9 +299,11 @@
       if (exact_find_status === "ON"){
         exact_find_status = "OFF";
         $("#exact_find_img").attr("src","{% static 'card_generator/images/switch_off.png' %}");
+        //$("#button_exact_find").attr("class","button1 download_button");
       } else {
         exact_find_status = "ON";
         $("#exact_find_img").attr("src","{% static 'card_generator/images/switch_on.png' %}");
+        //$("#button_exact_find").attr("class","button1 download_button download_button-hover");
       }
       $('#js_data_exact_find_status').val(exact_find_status);
     }
