@@ -24,5 +24,6 @@ urlpatterns = [
     path('home/'       , views.home_page),
     path('guide/'      , views.guide_page),
     path('try_it/'     , views.try_it_page),
+    path('try_it/show_output'     , views.show_output),
     path('shared_deck/', views.shared_deck_page),
 ]

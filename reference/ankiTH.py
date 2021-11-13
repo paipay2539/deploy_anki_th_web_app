@@ -283,6 +283,80 @@ def main():
     # ankiTH('vocab_jp', gen_sound=True, exactly_mode=False)
     # ankiTH('vocab_en', gen_sound=True, exactly_mode=False)
 
+def django_request(request):
+    
+    
+    input_text_post = request.POST['input_text']
+    lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
+    sound_status_post      = True if request.POST['sound_status'] == "ON" else False
+    exact_find_status_post = True if request.POST['exact_find_status'] == "ON" else False
+
+
+    input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8")
+    input_text_temp.write(input_text_post) 
+    input_text_temp.close()
+    
+    import time
+    yield "<html><body>\n"  
+    
+    input_text = "./reference/data/input/text_temp.txt"
+    gen_sound    = sound_status_post, 
+    exactly_mode = exact_find_status_post, 
+    lang_select  = lang_status_post
+    
+    parent_path = os.path.dirname(os.path.dirname(input_text))
+    input_text_file_name = os.path.basename(input_text)
+    input_text_file_name = os.path.splitext(input_text_file_name)[0]
+
+    vocab_lst = read_txt(input_text)
+    output = open(parent_path + "/output/" + input_text_file_name +'_output.txt', "w", encoding="utf8")
+    fail_output = open(parent_path + "/output/" + input_text_file_name +'_fail_output.txt', "w", encoding="utf8")
+
+    for vocab_cnt, vocab in enumerate(vocab_lst):
+        yield "555555555555" 
+        if 'jp' in lang_select:
+            meaning_lst = search_vocab_jp(vocab, exactly_mode)
+            if exactly_mode is False:
+                meaning_lst_exact = search_vocab_jp(vocab, True)
+                if meaning_lst is not None and meaning_lst_exact is not None:
+                    meaning_lst = meaning_lst_exact + meaning_lst
+                    meaning_lst = remove_repeated_element(meaning_lst)
+            furigana_offset = "</br>"
+        elif 'en' in lang_select:
+            meaning_lst = search_vocab_en(vocab, exactly_mode)
+            furigana_offset = ""
+        else:
+            break
+        if meaning_lst is not None:
+            # print(search_vocab_en(vocab))
+            meaning_text, furigana = text_convert(meaning_lst, vocab)
+            if gen_sound is True:
+                sound_number = input_text_file_name + '_' + str(vocab_cnt)
+                sound_call_name = '[sound:#' + sound_number + '.mp3]'
+                text2sound(vocab, sound_number, parent_path)
+            else:
+                sound_call_name = ''
+            vocab = '<span style="color:rgb(233, 253, 226); font-size:50px">' \
+                    + "<ruby>" + vocab + "<rt>" + furigana_offset \
+                    + "</rt></ruby>" + '</span>'
+            if furigana == '':
+                furigana = vocab
+            output.write(vocab + '@' + meaning_text + sound_call_name
+                         + '@' + furigana + '\n')
+        else:
+            fail_output.write(vocab + '\n')
+        progress(vocab_cnt, len(vocab_lst)-1)
+    output.close()
+    
+    gen_apkg("./reference/data/output/text_temp_output.txt")
+    for x in range(1,5):
+        yield "<div>%s</div>\n" % x
+        yield " " * 1024  # Encourage browser to render incrementally
+        time.sleep(0.5)
+    yield "</body></html>\n"
+    yield "<script>window.location.href = 'show_output';</script>"
+
+    
 
 if __name__ == '__main__':
     gen_apkg()
