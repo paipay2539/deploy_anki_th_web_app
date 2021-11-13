@@ -36,7 +36,7 @@ def try_it_page(request):
 
     global input_text_post, output_exist
     if output_exist == 1:
-        output_exist = 0
+
         output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
         fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
