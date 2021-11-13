@@ -74,7 +74,7 @@ def try_it_page(request):
         if 'input_text' in request.POST: # เอาไว้แยกได้ว่า กดปุ่มไหนมา
 
             from django.http import StreamingHttpResponse
-            request.session['output_exist'] = 1
+            output_exist = 1
             
             input_text_post = request.POST['input_text']
             lang_status_post       = "jp" if request.POST['button_jp_th_status'] == "ON" else "en"
