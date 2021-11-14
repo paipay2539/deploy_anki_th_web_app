@@ -86,6 +86,10 @@ def try_it_page(request):
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
 
+            abc = open('./reference/data/input/123.txt', "w")
+            print("wwwwwwwwwwwwwwwwww",request.META.get("REMOTE_ADDR"))
+            abc.close()
+            
             sound_path = './reference/data/output/sound/'
             shutil.rmtree(sound_path)
             os.mkdir(sound_path)
