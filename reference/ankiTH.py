@@ -12,6 +12,7 @@ import rainbow_divider_lib as rdl
 
 import genanki
 import random
+import time
 
 def progress(count, total, suffix=''):
     bar_len = 60
@@ -218,7 +219,7 @@ def ankiTH(input_text, gen_sound=False, exactly_mode=False, lang_select="jp"):
                          + '@' + furigana + '\n')
         else:
             fail_output.write(vocab + '\n')
-        progress(vocab_cnt, len(vocab_lst)-1)
+        progress(vocab_cnt+1, len(vocab_lst))
     output.close()
     # search_vocab_en('carrot')
 
@@ -289,22 +290,14 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
     
     #########################################################################################################
     
-    yield "<html><body>\n"  
+    loading_page_html = open("card_generator/templates/card_generator/loading_page.html", "r")
+    loading_page_html_list = loading_page_html.read().splitlines()
+    for line in loading_page_html_list:
+        yield line
+    loading_page_html.close()
     
-    yield '<link rel="preconnect" href="https://fonts.googleapis.com">'
-    yield '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-    yield '<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">'
-    yield '<style>.centered { position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);}</style>'
-    yield '<head><title>Loading Page</title><meta charset="utf-8">'
-    yield '<meta name="viewport" content="width=device-width, initial-scale=1">'
-    yield '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">'
-    yield '</head><body><div class="container centered">'
-    yield '<div class="text-center"><img height="300" src="https://1.bp.blogspot.com/-hNJ8P9SCy50/Wi4fw8ncKSI/AAAAAAABIqc/7Rl4i1B2uB0cJxU-M0VmNWRupS_GFRo2wCLcBGAs/s400/animal_chara_mogura_kouji.png">'
-    yield '<h2 style="font-family: Yuji Syuku, serif;">Waiting for generate card</h2></div>'
-    yield '<div class="progress" style="height:30; border-radius: 25px; background: rgb(229,234,254);">'
-    yield '<div id="progress_bar" class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"'
-    yield 'style="border-radius: 25px; width:0%; background: rgb(0,212,255) linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(0,255,55,1) 100%)">'
-    yield '<span class="sr-only"></span></div></div></div>'
+    time_capture = time.time()
+    acc_avg_time = 2 # avg time about 2 sec
     
     ######################################################################################################### 
     
@@ -317,16 +310,6 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
     fail_output = open(parent_path + "/output/" + input_text_file_name +'_fail_output.txt', "w", encoding="utf8")
 
     for vocab_cnt, vocab in enumerate(vocab_lst):
-        
-        #############################################
-        
-        # yield "<div>%s</div>\n" % str(vocab)+"\n"
-        # yield " " * 1024
-        percent_int = int(vocab_cnt/(len(vocab_lst)-1)*100)
-        yield '<script>document.getElementById("progress_bar").style.width = "'+ str(percent_int) +'%";</script>'
-        
-        #############################################
-        
         if 'jp' in lang_select:
             meaning_lst = search_vocab_jp(vocab, exactly_mode)
             if exactly_mode is False:
@@ -358,12 +341,30 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
                          + '@' + furigana + '\n')
         else:
             fail_output.write(vocab + '\n')
-        progress(vocab_cnt, len(vocab_lst)-1)
-    output.close()
+        progress(vocab_cnt+1, len(vocab_lst))
+        
+        #############################################
+        
+        # yield "<div>%s</div>\n" % str(vocab)+"\n"
+        # yield " " * 1024
+         
+        percent_int = int((vocab_cnt+1)/(len(vocab_lst))*100)
+        yield '<script>document.getElementById("progress_bar").style.width = "'+ str(percent_int) +'%";</script>'
+        # yield '<script>document.getElementById("message").textContent = "'+ str(vocab_cnt%4*".") + str((4-vocab_cnt%4)*" ") +'";</script>'
+        
+        time_per_word = (time.time() - time_capture)
+        time_capture = time.time()
+        acc_avg_time = (time_per_word + acc_avg_time)/2
+        remain_time = str(int((len(vocab_lst)-(vocab_cnt+1))*acc_avg_time))  
+        yield '<script>document.getElementById("progress_text").textContent = "Progress: '+ str(vocab_cnt+1) + "/" + str(len(vocab_lst))
+        yield '   Remaining Time: ' +  remain_time  + 'sec' +'";</script>'
+        time.sleep(1) # hold 100 percent progress
+        #############################################
     
+    output.close()
+     
     ######################################################################
     gen_apkg(parent_path + "/output/" + input_text_file_name +'_output.txt')
-    yield "</body></html>\n"
     yield "<script>window.location.href = '';</script>"
     ######################################################################
 

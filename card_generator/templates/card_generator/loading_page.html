@@ -1,0 +1,48 @@
+<html>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap" rel="stylesheet">
+<style>
+  * {
+    font-family: Yuji Syuku, serif;
+  }
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #progress_bar {
+    border-radius: 25px;
+    width: 0%;
+    background: rgb(0, 212, 255) linear-gradient(90deg, rgba(0, 212, 255, 1) 0%, rgba(0, 255, 55, 1) 100%)
+  }
+</style>
+
+<head>
+  <title>Loading Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container centered">
+    <div class="text-center"><img height="300"
+        src="https://1.bp.blogspot.com/-hNJ8P9SCy50/Wi4fw8ncKSI/AAAAAAABIqc/7Rl4i1B2uB0cJxU-M0VmNWRupS_GFRo2wCLcBGAs/s400/animal_chara_mogura_kouji.png">
+      <h2 id="message">Waiting for generate card</h2>
+    </div>
+    <div class="progress" style="height:30; border-radius: 25px; background: rgb(229,234,254);">
+      <div id="progress_bar" class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0"
+        aria-valuemax="100">
+        <span class="sr-only"></span></div>
+    </div>
+    <div class="text-center">
+      <h2 id="progress_text">
+        
+      </h2>
+    </div>
+  </div>
+</body>
+<script>document.getElementById("progress_bar").style.width = "0%";</script>
+<script>document.getElementById("progress_text").textContent = "Loading...";</script>'
+</html>

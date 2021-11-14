@@ -363,10 +363,12 @@
       if("{{lang_status}}" === "jp"){
         button_jp_th_pressed();
         window.scrollTo(0, 720);
+        $('#output_address').val("{{ip_address}}");
       } 
       else if ("{{lang_status}}" === "en") {
         button_en_th_pressed();
         window.scrollTo(0, 720);
+        $('#output_address').val("{{ip_address}}");
       }
 
       if("{{sound_status}}" === "True"){

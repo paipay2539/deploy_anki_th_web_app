@@ -29,15 +29,12 @@ def try_it_page(request):
     import glob
 
     ip_address = str(request.META.get("REMOTE_ADDR"))
-    print("request.META.get('HTTP_HOST'')", str(request.META.get("HTTP_HOST")))
-    print("request.META.get('REMOTE_HOST'')", str(request.META.get("REMOTE_HOST")))
-    print("request.META.get('REMOTE_USER'')", str(request.META.get("REMOTE_USER")))
-    print("request.META.get('REMOTE_ADDR'')", str(request.META.get("REMOTE_ADDR")))
+    print("request.META.get('REMOTE_ADDR')", ip_address)
     identity_folder = './reference/data/' + ip_address + '/'
-    # shutil.rmtree(sound_path)
     if os.path.exists(identity_folder):
-        print("a")
-        #os.mkdir(identity_folder)
+        print("identity folder found")
+        shutil.rmtree(identity_folder)
+        os.mkdir(identity_folder)
     
     
 
@@ -64,7 +61,8 @@ def try_it_page(request):
                         "fail_output_text"  : fail_output_text,
                         "lang_status"       : lang_status_post,
                         "sound_status"      : sound_status_post,
-                        "exact_find_status" : exact_find_status_post }
+                        "exact_find_status" : exact_find_status_post,
+                        "ip_address"        : ip_address}
         output.close()
         return render(request, "card_generator/try_it.html", output_dict)
 
@@ -115,7 +113,7 @@ def try_it_page(request):
                                     lang_select  = lang_status_post))
             return resp
 
-        if 'download_txt' in request.POST:
+        if 'download_txt' in request.POST and 'output_address_post' in request.POST:
             output_path = './reference/data/output/text_temp_output.txt'
             output = open(output_path, "r", encoding="utf8")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
@@ -123,7 +121,7 @@ def try_it_page(request):
             output.close()
             return response
 
-        if 'download_mp3' in request.POST:
+        if 'download_mp3' in request.POST and 'output_address_post' in request.POST:
             dir_name = './reference/data/output/sound/'
             output_filename = './reference/data/output/sound_zip_upload'
             shutil.make_archive(output_filename, 'zip', dir_name)
@@ -137,7 +135,7 @@ def try_it_page(request):
             # 'inline; filename=' มันจะพยายามเปิดบน browser ก่อนเช่นพวก pdf
             # ถ้าไฟล์เปิดบน browser ไม่ได้ มันจะโหลดเองทั้ง attachment และ inline
 
-        if 'download_apkg' in request.POST:
+        if 'download_apkg' in request.POST and 'output_address_post' in request.POST:
             output_path = "./reference/data/output/output.apkg"
             output = open(output_path, "rb")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
