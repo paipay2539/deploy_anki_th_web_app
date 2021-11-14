@@ -87,7 +87,8 @@ def try_it_page(request):
             input_text_temp.close()
 
             abc = open('./reference/data/input/123.txt', "w")
-            print("wwwwwwwwwwwwwwwwww",request.META.get("REMOTE_ADDR"))
+            print("request.META.get('REMOTE_ADDR'')",request.META.get("REMOTE_ADDR"))
+            print("request.user.id", request.user.id)
             abc.close()
             
             sound_path = './reference/data/output/sound/'
