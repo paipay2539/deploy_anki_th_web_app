@@ -27,9 +27,20 @@ def try_it_page(request):
     import sys 
     import shutil
     import glob
-    print("request.META.get('REMOTE_ADDR'')",request.META.get("REMOTE_ADDR"))
-    print("request.META['REMOTE_ADDR']",request.META['REMOTE_ADDR'])
-    print("request.user.id", request.user.id)
+
+    ip_address = str(request.META.get("REMOTE_ADDR"))
+    print("request.META.get('HTTP_HOST'')", str(request.META.get("HTTP_HOST")))
+    print("request.META.get('REMOTE_HOST'')", str(request.META.get("REMOTE_HOST")))
+    print("request.META.get('REMOTE_USER'')", str(request.META.get("REMOTE_USER")))
+    print("request.META.get('REMOTE_ADDR'')", str(request.META.get("REMOTE_ADDR")))
+    identity_folder = './reference/data/' + ip_address + '/'
+    # shutil.rmtree(sound_path)
+    if os.path.exists(identity_folder):
+        print("a")
+        #os.mkdir(identity_folder)
+    
+    
+
     file_path = os.path.realpath('./reference')
     print(file_path)
         
