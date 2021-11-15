@@ -359,6 +359,19 @@
       }
     }
 
+    function summit_share_deck(){
+      if(document.getElementById("output_text_id").value != ''){
+        $('#auth_post').val(document.getElementById("auth_text").value);
+        $('#deck_post').val(document.getElementById('deck_text').value);
+        $('#comment_post').val(document.getElementById('comment_text').value);
+        alert("Thank for your sharing.");
+        document.getElementById("form5").submit();
+      }
+      else{
+        alert("Please generate output before download.");
+      }
+    }
+
     function check_output(){
       if("{{lang_status}}" === "jp"){
         button_jp_th_pressed();

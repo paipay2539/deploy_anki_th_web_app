@@ -5,13 +5,21 @@ from django.shortcuts import render
 
 #from .models import Post
 
+import os
 import sys 
+import shutil
+import glob
+from datetime import datetime
+import time
+
 sys.path.append('./reference')
 import ankiTH
 
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
+
+from .models import Post
 
 def home_page(request):
     # return HttpResponse("w")
@@ -22,21 +30,27 @@ def guide_page(request):
     return render(request, "card_generator/guide.html")
 
 def try_it_page(request):
-    # return HttpResponse("w")
-    import os
-    import sys 
-    import shutil
-    import glob
+    
+    ##################### identity #############################
+    
+    print(request.POST.get('output_address_post'))
 
     ip_address = str(request.META.get("REMOTE_ADDR"))
     print("request.META.get('REMOTE_ADDR')", ip_address)
     identity_folder = './reference/data/' + ip_address + '/'
-    if os.path.exists(identity_folder):
-        print("identity folder found")
-        shutil.rmtree(identity_folder)
-        os.mkdir(identity_folder)
     
-    
+    ip_address_list = request.session.get('ip_address_list')
+    if ip_address_list is None:
+        request.session['ip_address_list'] = {ip_address:0}
+    else:
+        if ip_address not in ip_address_list:
+            request.session['ip_address_list'][ip_address] = 0
+            if os.path.exists(identity_folder):
+                print("identity folder found", identity_folder)
+                # shutil.rmtree(identity_folder)
+                os.mkdir(identity_folder)
+                
+    ###################################################################
 
     file_path = os.path.realpath('./reference')
     print(file_path)
@@ -64,6 +78,8 @@ def try_it_page(request):
                         "exact_find_status" : exact_find_status_post,
                         "ip_address"        : ip_address}
         output.close()
+        fail_output.close()
+        request.session['output_dict'] = output_dict
         return render(request, "card_generator/try_it.html", output_dict)
 
     
@@ -143,17 +159,66 @@ def try_it_page(request):
             output.close()
             return response
             
+        
+        if 'deck_name' in request.POST and 'output_address_post' in request.POST:
+            auth_name_get  = request.POST.get("auth_name")
+            deck_name_get  = request.POST.get("deck_name")
+            comment_get    = request.POST.get("comment")
+            input_box_get  = "   ".join(request.session.get('input_text_post').split("\r\n"))
+
+            # timestamp_get = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M')
+            
+            output_path   = "./reference/data/output/output.apkg"
+            output_apkg   = open(output_path, "rb")
+            apkg_file_get = output_apkg.read()
+            output_apkg.close()
+            # output_apkg   = open(output_path, "wb")
+            # output_apkg.write(output_apkg.read())
+
+            
+            
+            created_post = Post.objects.create( auth_name  = auth_name_get,
+                                                deck_name  = deck_name_get,
+                                                comment    = comment_get,
+                                                input_box  = input_box_get,
+                                                apkg_file  = apkg_file_get )
+            
+            
+            output_dict  = request.session.get('output_dict')
+            return render(request, "card_generator/try_it.html", output_dict)
+
     return render(request, "card_generator/try_it.html")
 
 def shared_deck_page(request):
-    # return HttpResponse("w")
-    return render(request, "card_generator/shared_deck.html")
+    
+    all_posts = Post.objects.all() # for i in all_posts จะได้ เหมือน get id
+    for id, post in enumerate(all_posts):
+        # post.delete()
+        if id in ["1000","999"]:
+            post.delete()
+        pass
+    
+    
+    args = { 'all_posts':all_posts }
+    if "download_this_id" in request.POST:
+        single_post = Post.objects.get(id=3) # เวลา่ใช้ให้ dot ไปเลย เช่น single_post.comment single_post.id
+        output_path = './reference/data/output/output2.apkg'
+        
+        output_apkg   = open(output_path, "wb") 
+        output_apkg.write(single_post.apkg_file)
+        output_apkg.close()
+        
+        output_apkg   = open(output_path, "rb") 
+        response = HttpResponse(output_apkg, content_type="application/vnd.ms-excel")
+        response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path) 
+        output_apkg.close()
+        return response    
+    
+    return render(request, "card_generator/shared_deck.html", args)
 
 def generate_output(request):
     print("pressed")
-    return HttpResponse("w")
     return render(request, "card_generator/try_it.html", {"output_text":"hello"})
-
 
 '''
 from django.views.decorators.http import condition

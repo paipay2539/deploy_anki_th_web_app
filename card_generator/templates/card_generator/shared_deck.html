@@ -3,49 +3,39 @@
 
 {% block content %} 
 
-  <h2>Shared Deck Page</h2>
-  <h4>Leave a Comment:</h4>
-  <form role="form">
-    <div class="form-group">
-      <textarea class="form-control" rows="3" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Submit</button>
-  </form>
-  <br><br>
-
-  <p><span class="badge">2</span> Comments:</p><br>
-
-  <div class="row">
-    <div class="col-sm-2 text-center">
-      <img src="{% static 'card_generator/images/megane_hikaru_man.png' %}" class="img-circle" height="65" width="65" alt="Avatar">
-    </div>
+  <h2>Shared Deck List</h2><br>
+  Available: <span class="badge">{{ all_posts|length }}</span> decks
+  {% for post in all_posts %}
+  <div class="row" style="background-color: 
+    rgba{% cycle '(186,225,255)' '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' %}">
     <div class="col-sm-10">
-      <h4>Anja <small>Sep 29, 2015, 9:12 PM</small></h4>
-      <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      <h2> Deck: {{ post.auth_name }}
+        <small>create by {{ post.auth_name }}</small>
+        <small>Sep 29, 2015, 9:12 PM</small> </h2>
+      <p>{{ post.comment }}</p>
       <br>
     </div>
     <div class="col-sm-2 text-center">
-      <img src="{% static 'card_generator/images/megane_hikaru_man.png' %}" class="img-circle" height="65" width="65" alt="Avatar">
-    </div>
-    <div class="col-sm-10">
-      <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
-      <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum
-        dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-        aliqua.</p>
-      <br>
-      <p><span class="badge">1</span> Comment:</p><br>
       <div class="row">
-        <div class="col-sm-2 text-center">
-          <img src="{% static 'card_generator/images/megane_hikaru_man.png' %}" class="img-circle" height="65" width="65" alt="Avatar">
-        </div>
-        <div class="col-xs-10">
-          <h4>Nested Bro <small>Sep 25, 2015, 8:28 PM</small></h4>
-          <p>Me too! WOW!</p>
-          <br>
-        </div>
+        Download apkg
+      </div>
+      <div class="row">
+        <img src="{% static 'card_generator/images/megane_hikaru_man.png' %}" class="img-circle" height="65" width="65"
+          alt="Avatar">
       </div>
     </div>
+    <div class="text-center">
+      <textarea cols="1" style="height: 125px;width: 95%;border-radius: 30px; resize: none; font-size: 25px;">
+        {{ post.input_box }}  
+      </textarea>
+    </div>
   </div>
+  <div class="row" 
+  style="background: linear-gradient(
+    rgba{% cycle '(186,225,255)' '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' %}, 
+    rgba{% cycle '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' '(186,225,255)' %});">
+    <hr>
+  </div>
+  {% endfor %}
 
 {% endblock %}
