@@ -1,41 +1,96 @@
 {% extends 'card_generator/base.html' %}
 {% load static %}
 
-{% block content %} 
+{% block content %}
 
-  <h2>Shared Deck List</h2><br>
-  Available: <span class="badge">{{ all_posts|length }}</span> decks
-  {% for post in all_posts %}
-  <div class="row" style="background-color: 
-    rgba{% cycle '(186,225,255)' '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' %}">
-    <div class="col-sm-10">
-      <h2> Deck: {{ post.auth_name }}
-        <small>create by {{ post.auth_name }}</small>
-        <small>Sep 29, 2015, 9:12 PM</small> </h2>
-      <p>{{ post.comment }}</p>
-      <br>
-    </div>
-    <div class="col-sm-2 text-center">
-      <div class="row">
-        Download apkg
+<h2>Shared Deck List</h2>
+<h4>Available: <span>{{ all_posts|length }}</span> decks</h4>
+{% for post in all_posts %}
+<div class="row" style="
+    {% if forloop.first %}
+    border-top-right-radius: 40px;
+    border-top-left-radius: 40px;
+    {% endif %}
+
+    {% if forloop.last %}
+    border-bottom-right-radius: 40px;
+    border-bottom-left-radius: 40px;
+    {% endif %}
+    padding: 20px 20px;
+    background-color: 
+    rgba{% cycle '(186,225,255,0.5)' '(186,255,201,0.5)' '(255,255,186,0.5)' '(255,223,186,0.5)' '(255,179,186,0.5)' %}">
+  <div class="col-sm-6">
+    <h2>{{ post.auth_name }} deck <br>
+      <small>created by {{ post.auth_name }}.&nbsp;&nbsp;&nbsp;{{ post.timestamp }}</small> 
+    </h2>
+    {% if post.comment %}
+    <p>Description: {{ post.comment }}</p>
+    {% endif %}
+    <br>
+    <p>There are {{ post.output_num }} cards</p>
+  </div>
+
+  <div class="col-sm-4 text-center log_group">
+    <div style="width: 95%" class="col-sm-12 group_background">
+      <div class="col-sm-4 text-center">
+      <h4>Language</h4>
+      {% if post.lang_log == "jp" %}
+      <img class='kuni_flag' src="{% static 'card_generator/images/Japan.png' %}" width="100" height="80">
+      {% elif post.lang_log == "en" %}
+      <img class='kuni_flag' src="{% static 'card_generator/images/United-Kingdom.png' %}" width="100" height="80">
+      {% endif %}
       </div>
-      <div class="row">
-        <img src="{% static 'card_generator/images/megane_hikaru_man.png' %}" class="img-circle" height="65" width="65"
-          alt="Avatar">
+      <div class="col-sm-4 text-center">
+      <h4>Sound</h4>
+      {% if post.sound_log == True %}
+      <img id="sound_img" class='download_img' src="{% static 'card_generator/images/switch_on.png' %}" width="100%"
+      height="80">
+      {% else %}
+      <img id="sound_img" class='download_img' src="{% static 'card_generator/images/switch_off.png' %}" width="100%"
+      height="80">
+      {% endif %}
       </div>
-    </div>
-    <div class="text-center">
-      <textarea cols="1" style="height: 125px;width: 95%;border-radius: 30px; resize: none; font-size: 25px;">
-        {{ post.input_box }}  
-      </textarea>
+      <div class="col-sm-4 text-center">
+      <h4>Exact</h4>
+      {% if post.exact_log == True %}
+      <img id="sound_img" class='download_img' src="{% static 'card_generator/images/switch_on.png' %}" width="100%"
+      height="80">
+      {% else %}
+      <img id="sound_img" class='download_img' src="{% static 'card_generator/images/switch_off.png' %}" width="100%"
+      height="80">
+      {% endif %}
+      </div>
     </div>
   </div>
-  <div class="row" 
-  style="background: linear-gradient(
-    rgba{% cycle '(186,225,255)' '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' %}, 
-    rgba{% cycle '(186,255,201)' '(255,255,186)' '(255,223,186)' '(255,179,186)' '(186,225,255)' %});">
-    <hr>
+
+
+  <div class="col-sm-2 text-center log_group">
+    <button class='group_background download_apkg' style="width: 90%" onclick="download_shared_deck({{ post.id }})">
+    <h4>Download apkg</h4> 
+      <img src="{% static 'card_generator/images/anki_logo.png' %}" class='download_img' height="80" width="100">
+  </button>
   </div>
-  {% endfor %}
+  <div class="text-center">
+    <textarea cols="1" style="height: 125px;width: 98%;border-radius: 30px; 
+      resize: none; font-size: 25px;" readonly>   {{ post.output_box }}</textarea>
+  </div>
+</div>
+
+{% if not forloop.last %}
+<div class="row" style="background: linear-gradient(
+    rgba{% cycle '(186,225,255,0.5)' '(186,255,201,0.5)' '(255,255,186,0.5)' '(255,223,186,0.5)' '(255,179,186,0.5)' %}, 
+    rgba{% cycle '(186,255,201,0.5)' '(255,255,186,0.5)' '(255,223,186,0.5)' '(255,179,186,0.5)' '(186,225,255,0.5)' %});">
+  <hr style="border-top: dotted 5px rgba(0, 0, 0, 0.356); width: 80%;" >
+</div>
+{% endif %}
+
+{% endfor %}
+
+
+<form action="" method="POST" id="form6">
+  {% csrf_token %}
+  <input type="hidden" name="download_this_id" id="download_shared_deck_id">
+</form>
+
 
 {% endblock %}

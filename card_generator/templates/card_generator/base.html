@@ -141,6 +141,21 @@
     #loading-image {
       z-index: 100;
     }
+    .log_group {
+      padding: 10px 0px 20px;
+    }
+    .group_background {
+      background-color: #FFCC99;
+      border: 2px solid #000000;
+      border-radius: 16px;
+      padding: 10px 0px 20px;
+    }   
+    .download_apkg:hover {
+      background-color: #65fa7e;
+      border: 6px solid #000000;
+      border-radius: 16px;
+      padding: 6px 0px 16px;
+    }   
 
     /*############################################################################ */
 
@@ -359,11 +374,20 @@
       }
     }
 
+    function download_shared_deck(id){
+      $('#download_shared_deck_id').val(id);
+      document.getElementById("form6").submit();
+      alert(id);
+    }
+
     function summit_share_deck(){
       if(document.getElementById("output_text_id").value != ''){
         $('#auth_post').val(document.getElementById("auth_text").value);
         $('#deck_post').val(document.getElementById('deck_text').value);
         $('#comment_post').val(document.getElementById('comment_text').value);
+        $('#lang_log_post').val("{{lang_status}}");
+        $('#sound_log_post').val("{{sound_status}}");
+        $('#exact_log_post').val("{{exact_find_status}}");
         alert("Thank for your sharing.");
         document.getElementById("form5").submit();
       }

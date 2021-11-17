@@ -161,28 +161,41 @@ def try_it_page(request):
             
         
         if 'deck_name' in request.POST and 'output_address_post' in request.POST:
-            auth_name_get  = request.POST.get("auth_name")
-            deck_name_get  = request.POST.get("deck_name")
-            comment_get    = request.POST.get("comment")
-            input_box_get  = "   ".join(request.session.get('input_text_post').split("\r\n"))
-
-            # timestamp_get = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M')
+            auth_name_get   = request.POST.get("auth_name")
+            deck_name_get   = request.POST.get("deck_name")
+            comment_get     = request.POST.get("comment")
             
-            output_path   = "./reference/data/output/output.apkg"
-            output_apkg   = open(output_path, "rb")
-            apkg_file_get = output_apkg.read()
+            lang_log_get    = request.POST.get("lang_log")
+            sound_log_get   = request.POST.get("sound_log")
+            exact_log_get   = request.POST.get("exact_log")
+            timestamp_get   = datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M')
+            
+            vocab_list      = request.session.get('output_dict')['output_text'].split("\n")
+            output_list = []
+            for vocab in vocab_list:
+                if "<ruby>" in vocab and "<rt>" in vocab:
+                    output_list.append(vocab[vocab.find("<ruby>")+len("<ruby>"):vocab.find("<rt>")])
+            
+            output_box_get  = ",   ".join(output_list)
+            output_num_get  = len(output_list)
+            
+            output_path     = "./reference/data/output/output.apkg"
+            output_apkg     = open(output_path, "rb")
+            apkg_file_get   = output_apkg.read()
             output_apkg.close()
             # output_apkg   = open(output_path, "wb")
             # output_apkg.write(output_apkg.read())
 
-            
-            
-            created_post = Post.objects.create( auth_name  = auth_name_get,
-                                                deck_name  = deck_name_get,
-                                                comment    = comment_get,
-                                                input_box  = input_box_get,
-                                                apkg_file  = apkg_file_get )
-            
+            created_post = Post.objects.create( auth_name   = auth_name_get,
+                                                deck_name   = deck_name_get,
+                                                comment     = comment_get,
+                                                output_box  = output_box_get,
+                                                output_num  = output_num_get,
+                                                apkg_file   = apkg_file_get,
+                                                lang_log    = lang_log_get,
+                                                sound_log   = sound_log_get,
+                                                exact_log   = exact_log_get,
+                                                timestamp   = timestamp_get )
             
             output_dict  = request.session.get('output_dict')
             return render(request, "card_generator/try_it.html", output_dict)
@@ -201,8 +214,11 @@ def shared_deck_page(request):
     
     args = { 'all_posts':all_posts }
     if "download_this_id" in request.POST:
-        single_post = Post.objects.get(id=3) # เวลา่ใช้ให้ dot ไปเลย เช่น single_post.comment single_post.id
-        output_path = './reference/data/output/output2.apkg'
+        # single_post = Post.objects.get(id=3) # เวลาใช้ให้ dot ไปเลย เช่น single_post.comment single_post.id
+        output_path = './reference/data/output/output_shared.apkg'
+        
+        request_id = request.POST.get("download_this_id")
+        single_post = Post.objects.get(id=request_id)
         
         output_apkg   = open(output_path, "wb") 
         output_apkg.write(single_post.apkg_file)
