@@ -78,6 +78,7 @@
 </div>
 <hr>
 
+{% if output_text %}
 <!-- ########################## Output Label Area ################################################## --> 
 <div class="row center_text">
   <div class="col-md-4">
@@ -135,6 +136,7 @@
   <input type="submit" value="OK" name="3">
 </form>
 -->
+
 <h2>Share Deck</h2>
 
 <div class='divOuter'>
@@ -152,14 +154,13 @@
     <h4>Leave a Comment:</h4>
     <!-- <form role="form"> -->
     <div class="form-group">
-      <textarea class="form-control" rows="3" id="comment_text" placeholder="Leave a Comment"></textarea>
+      <textarea class="form-control" rows="3" id="comment_text" placeholder="Leave a deck description"></textarea>
     </div>
-    <button type="submit" class="btn btn-success" onclick="summit_share_deck()">Submit</button>
+    <button type="submit" class="btn btn-success" onclick="summit_share_deck()">Share</button>
     <!-- </form> -->
   </div>
 </div>
-
-
+{% endif %}
 
 <div id="loading">
   <img id="loading-image" src="{% static 'card_generator/images/computer_bar5_load.png' %}" alt="Loading..." />
