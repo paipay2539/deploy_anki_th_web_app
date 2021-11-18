@@ -35,7 +35,7 @@ def try_it_page(request):
     
     print(request.POST.get('output_address_post'))
 
-    ip_address = str(request.META.get("REMOTE_ADDR"))
+    ip_address = str(request.META.get("REMOTE_ADDR")).replace('.','_')
     print("request.META.get('REMOTE_ADDR')", ip_address)
     identity_folder = './reference/data/' + ip_address + '/'
     
@@ -218,11 +218,13 @@ def shared_deck_page(request):
             post.delete()
         pass
     
-    
     args = { 'all_posts':all_posts }
     if "download_this_id" in request.POST:
+        
+        ip_address = str(request.META.get("REMOTE_ADDR")).replace('.','_')
+        
         # single_post = Post.objects.get(id=3) # เวลาใช้ให้ dot ไปเลย เช่น single_post.comment single_post.id
-        output_path = './reference/data/output/output_shared.apkg'
+        output_path = './reference/data/output/output_shared_'+ip_address+'.apkg'
         
         request_id = request.POST.get("download_this_id")
         single_post = Post.objects.get(id=request_id)
@@ -235,6 +237,8 @@ def shared_deck_page(request):
         response = HttpResponse(output_apkg, content_type="application/vnd.ms-excel")
         response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path) 
         output_apkg.close()
+        os.remove(output_path)
+        
         return response    
     
     return render(request, "card_generator/shared_deck.html", args)
