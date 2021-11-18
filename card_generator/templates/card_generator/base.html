@@ -311,9 +311,14 @@
     $('#js_data_sound_status').val(sound_status); 
     $('#js_data_exact_find_status').val(exact_find_status);
 
+    switch_pre_load = new Image();
+    switch_pre_load.src = "{% static 'card_generator/images/switch_off.png' %}";
+    switch_pre_load.src = "{% static 'card_generator/images/switch_off.png' %}";
+
     function button_sound_pressed() {
       if (sound_status === "ON"){
         sound_status = "OFF";
+        
         $("#sound_img").attr("src","{% static 'card_generator/images/switch_off.png' %}");
         //$("#button_sound").attr("class","button1 download_button");
       } else {
