@@ -35,8 +35,8 @@
       font-size: 150%;
     }
     #menu :hover {
-      background-color: #2f00ff;
-      color: rgb(172, 201, 172);
+      background-color: #4e5fff;
+      color: rgb(255, 255, 255) !important;
     }
     .button1 {
       background-color: #4CAF50;
@@ -52,17 +52,22 @@
       cursor: pointer;
     }
     .mode_button {
-      opacity: 0.5;
+      opacity: 0.45;
       background-color: #FFCC99;
       border: 2px solid #000000;
       border-radius: 16px;
     }    
     .mode_button:hover {
-      opacity: 1;
+      opacity: 0.65;
       background-color: #f89532;
       padding: 10px 20px;
     }
     .mode_button-hover {
+      opacity: 1;
+      background-color: #f89532;
+      padding: 10px 20px;
+    }
+    .mode_button-hover:hover {
       opacity: 1;
       background-color: #f89532;
       padding: 10px 20px;
@@ -150,16 +155,16 @@
       padding: 10px 0px 20px;
     }
     .group_background {
-      background-color: #FFCC99;
-      border: 2px solid #000000;
+      background-color: #80fc47c4;
+      border: 5px dotted #50505069;
       border-radius: 16px;
       padding: 10px 0px 20px;
     }   
     .download_apkg:hover {
-      background-color: #65fa7e;
-      border: 6px solid #000000;
+      background-color: #80fc47c4 !important;
+      border: 5px dotted #000000;
       border-radius: 16px;
-      padding: 6px 0px 16px;
+      padding: 10px 0px 20px;
     }   
 
     /*############################################################################ */
@@ -172,7 +177,10 @@
     /* Set gray background color and 100% height */
     .sidenav {
       background-color: #f1f1f1;
-      height: 300%;
+      height: 100%;
+      position: fixed;
+      right: 0;
+      border-left: 3px solid #50505069;
     }
 
     /* Set black background color, white text and some padding */
@@ -180,6 +188,10 @@
       background-color: #555;
       color: white;
       padding: 15px;
+      bottom: 0;
+      position: relative;
+      top: 0px;
+      right: 16px;
     }
 
     /* On small screens, set height to 'auto' for sidenav and grid */
@@ -387,7 +399,7 @@
     function download_shared_deck(id){
       $('#download_shared_deck_id').val(id);
       document.getElementById("form6").submit();
-      alert(id);
+      // alert(id);
     }
 
     function summit_share_deck(){

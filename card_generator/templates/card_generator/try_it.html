@@ -102,7 +102,14 @@
   </div>
 
   <div class="col-md-2">
-    <textarea class="scroller" name="input_text" cols="40" id = "fail_output_text_id" readonly>{{ fail_output_text }}</textarea>
+    <textarea class="scroller" name="input_text" cols="40" id = "fail_output_text_id" readonly>
+      {% if fail_output_text %}
+      {{ fail_output_text }}
+      {% else %}
+      Congratulation !
+      no any fail input.
+      {% endif %}
+    </textarea>
   </div>
 
   <div class="col-md-2">
@@ -142,8 +149,8 @@
 <div class='divOuter'>
   <div class='divInner1'>
     <div class="input-group">
-      <h4>Name:</h4>
-      <input type="text" class="form-control" id="auth_text" placeholder="Name" required>
+      <h4>Creator Name:</h4>
+      <input type="text" class="form-control" id="auth_text" placeholder="Creator Name" required>
       <br><br>
       <h4>Deck Name:</h4>
       <input type="text" class="form-control" id="deck_text" placeholder="Deck Name" required>
@@ -151,10 +158,10 @@
     </div>
   </div>
   <div class='divInner2'>
-    <h4>Leave a Comment:</h4>
+    <h4>Leave a Description:</h4>
     <!-- <form role="form"> -->
     <div class="form-group">
-      <textarea class="form-control" rows="3" id="comment_text" placeholder="Leave a deck description"></textarea>
+      <textarea class="form-control" rows="3" id="comment_text" placeholder="Leave a Description"></textarea>
     </div>
     <button type="submit" class="btn btn-success" onclick="summit_share_deck()">Share</button>
     <!-- </form> -->

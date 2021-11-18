@@ -185,8 +185,14 @@ def try_it_page(request):
             output_apkg.close()
             # output_apkg   = open(output_path, "wb")
             # output_apkg.write(output_apkg.read())
-
-            created_post = Post.objects.create( auth_name   = auth_name_get,
+            
+            id_list = Post.objects.all().values_list('id', flat=True)
+            this_id = 1 # ถ้าเราไม่ใส่อันนี้มันจะรันต่อจากตัวมากที่สุด
+            while this_id in id_list:
+                this_id = this_id + 1
+            
+            created_post = Post.objects.create( id          = this_id, 
+                                                auth_name   = auth_name_get,
                                                 deck_name   = deck_name_get,
                                                 comment     = comment_get,
                                                 output_box  = output_box_get,
@@ -196,6 +202,7 @@ def try_it_page(request):
                                                 sound_log   = sound_log_get,
                                                 exact_log   = exact_log_get,
                                                 timestamp   = timestamp_get )
+            
             
             output_dict  = request.session.get('output_dict')
             return render(request, "card_generator/try_it.html", output_dict)
