@@ -33,22 +33,27 @@ def try_it_page(request):
     
     ##################### identity #############################
     
-    print(request.POST.get('output_address_post'))
+    returned_ip =  request.POST.get('output_address_post')
+    print(returned_ip)
 
-    ip_address = str(request.META.get("REMOTE_ADDR")).replace('.','_')
-    print("request.META.get('REMOTE_ADDR')", ip_address)
-    identity_folder = './reference/data/' + ip_address + '/'
-    
-    ip_address_list = request.session.get('ip_address_list')
-    if ip_address_list is None:
-        request.session['ip_address_list'] = {ip_address:0}
+    if returned_ip is not None:
+        # กลับมาจากหน้าหน้าแสดง output (กดปุ่ม load/share) จะเป็น action ที่มีการ refer output
+        ip_address = returned_ip
+        identity_folder = './reference/data/' + ip_address + '/'
+        
     else:
-        if ip_address not in ip_address_list:
-            request.session['ip_address_list'][ip_address] = 0
-            if os.path.exists(identity_folder):
-                print("identity folder found", identity_folder)
-                # shutil.rmtree(identity_folder)
-                os.mkdir(identity_folder)
+        # ไม่มี returned_ip มี 2เคส คือ โหลดหน้าใหม่ กับพึ่งกลับมาจากหน้าโหลด address จะยังไม่เปลี่ยน
+        ip_address = str(request.META.get("REMOTE_ADDR")).replace('.','_')
+        identity_folder = './reference/data/' + ip_address + '/'
+         
+        work_space_list = os.listdir('./reference/data/')
+        if ip_address not in work_space_list:
+            os.mkdir(identity_folder)
+            os.mkdir(identity_folder+'/input/')
+            os.mkdir(identity_folder+'/output/')
+            os.mkdir(identity_folder+'/output/sound/')
+
+    print("ip", ip_address)
                 
     ###################################################################
 
@@ -56,6 +61,7 @@ def try_it_page(request):
     print(file_path)
         
     output_exist = request.session.get('output_exist')
+    
     if output_exist is None:
         request.session['output_exist'] = 0  
         
@@ -66,8 +72,8 @@ def try_it_page(request):
         sound_status_post      = request.session.get('sound_status_post')
         exact_find_status_post = request.session.get('exact_find_status_post')
         
-        output           = open('./reference/data/output/text_temp_output.txt', "r", encoding="utf8")
-        fail_output      = open('./reference/data/output/text_temp_fail_output.txt', "r", encoding="utf8")
+        output           = open('./reference/data/'+ip_address+'/output/text_temp_output.txt', "r", encoding="utf8")
+        fail_output      = open('./reference/data/'+ip_address+'/output/text_temp_fail_output.txt', "r", encoding="utf8")
         output_text      = output.read().strip('\n')
         fail_output_text = fail_output.read().strip('\n')
         output_dict = { "input_text_post"   : input_text_post, 
@@ -84,7 +90,7 @@ def try_it_page(request):
 
     
     if request.method == 'GET':
-        print("welcome to try_it_page")
+        print("welcome to try_ict_page")
     elif request.method == 'POST':
         print("post")
         for key, value in request.POST.items():
@@ -109,28 +115,28 @@ def try_it_page(request):
             request.session['sound_status_post'] = sound_status_post
             request.session['exact_find_status_post'] = exact_find_status_post
 
-            input_text_temp = open('./reference/data/input/text_temp.txt', "w", encoding="utf8", newline='')
+            input_text_temp = open('./reference/data/'+ip_address+'/input/text_temp.txt', "w", encoding="utf8", newline='')
             input_text_temp.write(input_text_post) 
             input_text_temp.close()
 
-            abc = open('./reference/data/input/123.txt', "w")
+            abc = open('./reference/data/'+ip_address+'/input/123.txt', "w")
             abc.close()
             
-            sound_path = './reference/data/output/sound/'
+            sound_path = './reference/data/'+ip_address+'/output/sound/'
             shutil.rmtree(sound_path)
             os.mkdir(sound_path)
             sound_temp_file = open(sound_path+'#text_temp_0.mp3', "w")
             sound_temp_file.close()
 
             resp = StreamingHttpResponse(ankiTH.django_request(  
-                                    input_text   = "./reference/data/input/text_temp.txt", 
+                                    input_text   = './reference/data/'+ip_address+'/input/text_temp.txt', 
                                     gen_sound    = sound_status_post, 
                                     exactly_mode = exact_find_status_post, 
                                     lang_select  = lang_status_post))
             return resp
 
         if 'download_txt' in request.POST and 'output_address_post' in request.POST:
-            output_path = './reference/data/output/text_temp_output.txt'
+            output_path = './reference/data/'+ip_address+'/output/text_temp_output.txt'
             output = open(output_path, "r", encoding="utf8")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path)
@@ -138,8 +144,8 @@ def try_it_page(request):
             return response
 
         if 'download_mp3' in request.POST and 'output_address_post' in request.POST:
-            dir_name = './reference/data/output/sound/'
-            output_filename = './reference/data/output/sound_zip_upload'
+            dir_name = './reference/data/'+ip_address+'/output/sound/'
+            output_filename = './reference/data/'+ip_address+'/output/sound_zip_upload'
             shutil.make_archive(output_filename, 'zip', dir_name)
             output_path = output_filename + ".zip"
             output = open(output_path, "rb")
@@ -152,7 +158,7 @@ def try_it_page(request):
             # ถ้าไฟล์เปิดบน browser ไม่ได้ มันจะโหลดเองทั้ง attachment และ inline
 
         if 'download_apkg' in request.POST and 'output_address_post' in request.POST:
-            output_path = "./reference/data/output/output.apkg"
+            output_path = './reference/data/'+ip_address+'/output/output.apkg'
             output = open(output_path, "rb")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
             response['Content-Disposition'] = 'attachment; filename=' + os.path.basename(output_path) 
@@ -179,7 +185,7 @@ def try_it_page(request):
             output_box_get  = ",   ".join(output_list)
             output_num_get  = len(output_list)
             
-            output_path     = "./reference/data/output/output.apkg"
+            output_path     = './reference/data/'+ip_address+'/output/output.apkg'
             output_apkg     = open(output_path, "rb")
             apkg_file_get   = output_apkg.read()
             output_apkg.close()
