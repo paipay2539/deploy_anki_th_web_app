@@ -366,6 +366,8 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
     ######################################################################
     gen_apkg(parent_path + "/output/" + input_text_file_name +'_output.txt')
     yield "<script>window.location.href = '';</script>"
+    # unique_folder = os.path.basename(parent_path)
+    # yield "<script>window.location.search = 'loading_end_folder="+unique_folder+"';</script>"    
     ######################################################################
 
 if __name__ == '__main__':
