@@ -175,27 +175,28 @@
 <form action="" method="POST" id="form2">
   {% csrf_token %}
   <input type="hidden" name="download_apkg">
-  <input type="hidden" name="output_address_post" value="" id="output_address">
+  <input type="hidden" name="address_log" id="address_form2_post">
 </form>
 <form action="" method="POST" id="form3">
   {% csrf_token %}
   <input type="hidden" name="download_txt">
-  <input type="hidden" name="output_address_post" value="" id="output_address">
+  <input type="hidden" name="address_log" id="address_form3_post">
 </form>
 <form action="" method="POST" id="form4">
   {% csrf_token %}
   <input type="hidden" name="download_mp3">
-  <input type="hidden" name="output_address_post" value="" id="output_address">
+  <input type="hidden" name="address_log" id="address_form4_post"> 
 </form>
 <form action="" method="POST" id="form5">
   {% csrf_token %}
   <input type="hidden" name="auth_name" id="auth_post">
   <input type="hidden" name="deck_name" id="deck_post">
   <input type="hidden" name="comment" id="comment_post">
-  <input type="hidden" name="output_address_post" value="" id="output_address">
+  <input type="hidden" name="address_log" id="address_form5_post">
   <input type="hidden" name="lang_log" id="lang_log_post">
   <input type="hidden" name="sound_log" id="sound_log_post">
   <input type="hidden" name="exact_log" id="exact_log_post">
+  <!-- ระวัง  value="" มันจะไปทำค่าที่เราใส่ไว้ใน js  -->
 </form>
 
 <!--

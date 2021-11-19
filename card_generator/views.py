@@ -33,7 +33,7 @@ def try_it_page(request):
     
     ##################### identity #############################
     
-    returned_ip =  request.POST.get('output_address_post')
+    returned_ip =  request.POST.get('address_log')
     print(returned_ip)
 
     if returned_ip is not None:
@@ -135,7 +135,7 @@ def try_it_page(request):
                                     lang_select  = lang_status_post))
             return resp
 
-        if 'download_txt' in request.POST and 'output_address_post' in request.POST:
+        if 'download_txt' in request.POST and 'address_log' in request.POST:
             output_path = './reference/data/'+ip_address+'/output/text_temp_output.txt'
             output = open(output_path, "r", encoding="utf8")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
@@ -143,7 +143,7 @@ def try_it_page(request):
             output.close()
             return response
 
-        if 'download_mp3' in request.POST and 'output_address_post' in request.POST:
+        if 'download_mp3' in request.POST and 'address_log' in request.POST:
             dir_name = './reference/data/'+ip_address+'/output/sound/'
             output_filename = './reference/data/'+ip_address+'/output/sound_zip_upload'
             shutil.make_archive(output_filename, 'zip', dir_name)
@@ -157,7 +157,7 @@ def try_it_page(request):
             # 'inline; filename=' มันจะพยายามเปิดบน browser ก่อนเช่นพวก pdf
             # ถ้าไฟล์เปิดบน browser ไม่ได้ มันจะโหลดเองทั้ง attachment และ inline
 
-        if 'download_apkg' in request.POST and 'output_address_post' in request.POST:
+        if 'download_apkg' in request.POST and 'address_log' in request.POST:
             output_path = './reference/data/'+ip_address+'/output/output.apkg'
             output = open(output_path, "rb")
             response = HttpResponse(output, content_type="application/vnd.ms-excel")
@@ -166,7 +166,7 @@ def try_it_page(request):
             return response
             
         
-        if 'deck_name' in request.POST and 'output_address_post' in request.POST:
+        if 'deck_name' in request.POST and 'address_log' in request.POST:
             auth_name_get   = request.POST.get("auth_name")
             deck_name_get   = request.POST.get("deck_name")
             comment_get     = request.POST.get("comment")
