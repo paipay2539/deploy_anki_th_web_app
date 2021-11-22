@@ -238,10 +238,19 @@ def shared_deck_page(request):
         ip_address = str(request.META.get("REMOTE_ADDR")).replace('.','_')
         
         # single_post = Post.objects.get(id=3) # เวลาใช้ให้ dot ไปเลย เช่น single_post.comment single_post.id
-        output_path = './reference/data/output/output_shared_'+ip_address+'.apkg'
+        dt = datetime.now()
+        timestamp = "{}{}{}{}{}{}{}".format(str(dt.year)[-2:-1],
+                                            dt.month,
+                                            dt.day,
+                                            dt.hour,
+                                            dt.minute,
+                                            dt.second,
+                                            str(dt.microsecond)[0:2])
         
         request_id = request.POST.get("download_this_id")
         single_post = Post.objects.get(id=request_id)
+        
+        output_path = './reference/data/output/output_'+ single_post.deck_name + "_" + timestamp + '.apkg'
         
         output_apkg   = open(output_path, "wb") 
         output_apkg.write(single_post.apkg_file)
