@@ -23,8 +23,8 @@
     <div class="group_background" style="width: 95%; height:159px; 
     background-color: 
     rgba{% cycle '(186,225,255,1)' '(186,255,201,1)' '(255,255,186,1)' '(255,223,186,1)' '(255,179,186,1)' %}">
-    <h4>&nbsp;&nbsp;&nbsp;Deck: {{ post.auth_name }} ({{ post.output_num }} cards) <br>
-      <small>&nbsp;&nbsp;&nbsp;&nbsp;created by {{ post.deck_name }}.&nbsp;&nbsp;&nbsp;{{ post.timestamp }}</small> 
+    <h4>&nbsp;&nbsp;&nbsp;Deck: {{ post.deck_name }} ({{ post.output_num }} cards) <br>
+      <small>&nbsp;&nbsp;&nbsp;&nbsp;created by {{ post.auth_name }}.&nbsp;&nbsp;&nbsp;{{ post.timestamp }}</small> 
     </h4>
     {% if post.comment %}
     <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description: {{ post.comment }}</p>
