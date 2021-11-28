@@ -3,6 +3,350 @@
 
 {% block content %} 
 
-  <h2>Guide Page</h2>
+  <div class="container centered">
+    <div class="text-center">
+
+      <h2>
+        <p>ในหน้านี้เราจะสอนวิธีใช้งานเว็บนี้กัน ถ้าพร้อมแล้วก็ไปกันเลย!</p>
+      </h2>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>
+          Feature หลักๆของเว็บเราจะอยู่ที่หน้า "Try it!"<br>
+          ซึ่งสามารถเข้าถึงได้ทาง แถบด้านข้างตามรูปเลยนะครับ
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/menu_try_it.png' %}" 
+      width="225" height="200">
+      <br>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>   
+          เมื่อเข้ามาแล้วก็จะเจอกับหน้าเพจ ตามรูปข้างล่างเลย<br>
+          ซึ่งจะเป็นส่วนที่ User ต้องกรอก Input สำหรับสร้าง Flash Card นั่นเอง          
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/try_it_input.png' %}" 
+      width="850" height="350">
+      <br>
+
+      <h3>
+        <p>   
+          งงล่ะสิว่าแต่ละอันคืออะไร เดี๋ยวเราจะอธิบายทีละอันเลย        
+        </p>
+      </h3>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>   
+          ก่อนอื่น เราจะต้องเลือกว่าเราจะทำ Flash card ของภาษาอะไร<br>
+          ให้กดตามภาษาที่เพื่อนๆ เลือก Input มาเลย
+        </p>
+      </h3>
+      
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/select_lang.png' %}" 
+      width="600" height="150">
+      <br>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>   
+          ต่อมาคือเจ้ากล่อง Input นี้ <br>
+          ให้เพื่อนๆเอา Input คำศัพท์ที่เราอยากท่องหรือจำให้ได้ใส่ไปเลย<br>
+          โดยมีข้อกำหนดว่าให้ใส่บรรทัดละคำศัพท์นะ<br>
+        </p>
+      </h3>
+
+      <img src="{% static 'card_generator/images/guide_page/input_each_type.png' %}" 
+      width="800" height="500">
+      <h5>ห้ามใส่แบบหลายๆคำศัพท์ใน1บรรทัด ต้องขึ้นบรรทัดใหม่เท่านั้นจ้า</h5>
+      <br>
+      <br>
+
+      <h3>
+        <p>   
+          อันนี้เขียนบอกไว้สำหรับคนที่มีคำศัพท์ติดกันเป็นก้อนๆ<br>
+          แล้วแยกออกเป็นตัวละบรรทัดไม่เป็นนะ ให้ลองใช้วิธีนี้ดู<br>
+          ใครทำเป็นอยู่แล้ว ข้ามไปได้เลยจ้า
+        </p>
+        <br>
+      </h3>
+
+      <div style="text-align: left; padding-left: 50px;">
+        <h3>
+          <p>   
+            1) โหลดตัว Text editor ชื่อ "Notepad++" มาใช้<br>
+            2) วางคำศัพท์เราลงไปแล้ว กด ctrl+H<br> 
+            3) เลือก Search Mode เป็น Extended<br>
+            4) ช่อง Find what ให้ใส่ อักษรที่คั่นคำศัพท์เรา<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;เช่นในตัวอย่างเป็น Spacebar ก็ใส่ Spacebar 1 ตัวครับ ใครเป็น Tab ก็ให้ใส่ \t แทนนะ<br>
+            5) ช่อง Replace with ให้ใส่ \n ซึ่งหมายถึงการเคาะบรรทัดใหม่นั่นเอง<br>
+            6) กด Replace All แล้ว copy มาใส่เว็บก็เป็นอันเสร็จจ้า<br>
+          </p>
+        </h3>
+      </div>
+
+      <br><br>
+      <img src="{% static 'card_generator/images/guide_page/notepad_pp.png' %}" 
+      width="1000" height="500">
+      <h5>วิธีแยก textที่ติดกันด้วย spacebar ผ่าน Notepad++</h5>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>   
+          กลับมาที่เว็บของเรากัน ตัวถัดไปที่จะแนะนำคือ ปุ่ม "Sound" และ "Exact Find"
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/sound_exact.png' %}" 
+      width="500" height="300">
+      <br>
+
+      <h3>
+        <p>   
+          ปุ่ม "Sound"  ถ้าเรากดให้มัน ON จะเป็นการเพิ่มเสียงการอ่านคำศัพท์ใส่ใน Flash Card ของเรานั่นเอง<br>
+          ซึ่งเสียงอ่านจะจำเป็นมากสำหรับการเรียนภาษาอังกฤษครับ (ภาษาญี่ปุ่นมันมี Hiragana ช่วยอยู่แล้ว)<br>
+          แต่ว่าถ้าจะให้มันสร้างเสียงอ่านมาเพิ่มด้วย การสร้างการ์ดจะใช้เวลานานขึ้นด้วยนะ<br>
+          ส่วนตัวเราแนะนำให้กด ON ไปเลยทั้งคนเรียนภาษาญี่ปุ่น และภาษาอังกฤษ
+        </p>
+      </h3>
+
+
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/sound_ex.png' %}" 
+      width="600" height="450">
+      <h5>ตัวอย่างภาพ ที่ตัวการ์ด เราจะเห็นปุ่ม (▷) โผล่เพิ่มขึ้นมาด้วย</h5>
+      <br>
+
+
+      <h3>
+        <p>   
+          ถัดมาเป็นปุ่ม "Exact Find" ถ้าเรากดปุ่มให้มัน ON เวลากดสร้างการ์ด<br>
+          มันหาแค่แปลที่ตรงกับคำศัพท์คำนั้นแบบเป๊ะๆเท่านั้น ดั้งตัวอย่างข้างล่างเลยจ้า
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/exact_ex.png' %}" 
+      width="1000" height="450">
+      <h5>ตัวอย่างภาพ ที่ตัวการ์ด ถ้ากด exact:"ON" เวลามันไปหาความหมาย มันจะเอามาแค่ความหมายที่ตรงกันมาเท่านั้น</h5>
+      <br>
+
+      <h3>
+        <p>   
+          เมื่อเราใส่ คำศัพท์และเลือก Option ต่างๆเสร็จแล้ว ให้กดปุ่ม Generate เลยจ้า
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/generate.png' %}" 
+      width="300" height="250">
+      <h5>หน้าตาปุ่ม Generate</h5>
+      <br>
+
+      <h3>
+        <p>   
+          พอกดแล้วมันจะเข้ามาที่หน้าที่มีน้องตุ่น ที่เหลือก็แค่รออย่างเดียวจ้า
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/loading.png' %}" 
+      width="800" height="350">
+      <h5>ตัวอย่างหน้ารอ generate card</h5>
+
+      <h3>.</h3><h3>.</h3><h3>.</h3>
+
+      <h3>
+        <p>   
+          เมื่อการ์ดถูกสร้างเสร็จ จะมี Output โผล่ออกมาประมาณนี้
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/output.png' %}" 
+      width="800" height="300">
+      <h5>ตัวอย่างหน้าผล output</h5>
+      <br>
+
+      <h3>
+        <p>   
+          ช่อง Output จะแสดง text ที่จะอยู่บนการ์ดซึ่งอยู่ในรูป tag HTML<br>
+          ส่วน File จะเป็น Material สำหรับสร้าง akpg เราแป๊ะไว้อย่างงั้นเฉยๆ ไม่ต้องสนใจ
+        </p>
+      </h3>
+
+      <br>
+
+      <h3>
+        <p>   
+          ส่วนที่ต้องสนใจคือ ช่อง Fail มันจะแสดงคำศัพท์ที่มันหาไม่เจอ
+        </p>
+      </h3>
+
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/fail_ex.png' %}" 
+      width="500" height="300">
+      <h5>
+          ยกตัวอย่างเช่น เราลองใส่ ชื่อ Edogawa Conan ไปใน Input<br>
+          มันก็จะมาโผล่ในช่อง Fail เพราะชื่อโคนันไม่ได้อยู่ใน Database
+      </h5>
+      <br>
+
+      <h3>
+        <p>   
+          *** ส่วนที่กล่าวมาข้างบนเป็นแค่การแสดงผล ไม่ต้องดูเลยก็ได้<br>
+          พอปุ่ม Download โผล่มา เราก็สามารถกดเพื่อโหลด ไฟล์ akpg ได้เลย
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/anki_pic.png' %}" 
+      width="250" height="250">
+      <h5>ปุ่ม Download file apkg</h5>
+
+
+
+      <h3>
+        <p>   
+          ไฟล์ akpg คืออะไร ? ใช้ยังไง ??<br>
+          Ans:  ไฟล์นี้คือการเก็บการ์ดหลายๆในอยู่ในรูปแบบ Deck<br>
+          ซึ่งเราต้องทำการโหลดแอป Anki มาในเครื่องเราก่อน<br>
+          สามารถโหลดได้ที่เว็บนี้เลย <a href="https://apps.ankiweb.net/">https://apps.ankiweb.net/</a><br>
+          ( มีให้เลือกทุก OS และทุก Platfrom ทั้ง PC / mobile )<br>
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/anki_web.png' %}" 
+      width="600" height="400">
+      <h5>ตัวอย่างเว็บไซต์ Anki</h5>
+
+      <h3>
+        <p>   
+          ต่อมาก็วิธีเพิ่ม Deck เข้าแอป Anki<br>
+          ให้กดคลิกที่ไฟล์ที่โหลดมาได้เลย (ต้องลงแอป Anki ก่อนนะ)
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/output_icon.png' %}" 
+      width="100" height="120">
+      <h5>ตัวอย่าง ไฟล์ apkg ที่ Generate ออกมา</h5>
+
+      <h3>
+        <p>   
+          พอคลิกดูแล้ว มันจะขึ้นข้อความประมาณนี้ ให้กด Close ไป
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/click_output_icon.png' %}" 
+      width="500" height="400">
+      <h5>ตัวอย่าเมื่อเรากดคลิกที่ไฟล์ apkg เพื่อ add deck</h5>
+      <br>
+
+      <h3>
+        <p>   
+          ที่นี้พอเราเปิด app anki ก็จะเห็น Deck ชื่อ "anki_th" เพิ่มขึ้นมา<br>
+          เพื่อนๆ สามารถ Rename เป็นชื่ออื่นได้ตามต้องการโดยการกดปุ่ม ฟันเฟืองด้านขวามือ<br>
+          *** ถ้าไม่เปลี่ยนชื่อแล้วกด add Deck เพิ่มเข้าไปมันจะกลายเป็นว่ามันจะเพิ่มการ์ดเข้าไปใน Deck เดิม
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/deck_exist.png' %}" 
+      width="500" height="400">
+      <h5>Deck ชื่อ "anki_th" ถูกเพิ่มขึ้นมา</h5>
+      <br>
+
+      <h3>
+        <p>   
+          เปลี่ยนชื่อเสร็จก็เข้าไปเล่นได้เลยจ้า
+        </p>
+      </h3>
+
+      <img src="{% static 'card_generator/images/guide_page/card_ex.png' %}" 
+      width="250" height="400">
+      <h5>ตัวอย่างการ์ด เมื่อกดเข้าไปเล่น</h5>
+
+      <br>
+
+      <h3>
+        <p>   
+          การสอนวิธีสร้าง Deck จบตรงนี้จ้า
+        </p>
+      </h3>
+
+      <img src="{% static 'card_generator/images/guide_page/eto_inu_kamifubuki.png' %}">
+
+      <hr>
+
+      <h3>
+        <p>   
+          ส่วนข้างล่าง ถ้าใครอยากแชร์ Deck ที่ตัวเองสร้างให้คนอื่นเล่น<br>
+          ก็ใส่ชื่อคนทำและชื่อ Deck แล้วกด Share ได้เลยจ้า
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/shared_deck.png' %}" 
+      width="1000" height="250">
+      <h5>ช่องสำหรับใส่รายละเอียด Deck</h5>
+      <br>
+
+      <h3>
+        <p>   
+          ไหนลองใส่ดูสิ
+        </p>
+      </h3>
+
+      <img src="{% static 'card_generator/images/guide_page/shared_deck_ex.png' %}" 
+      width="400" height="200">
+      <h5>ตัวอย่างการแชร์ Deck</h5>
+      <br>
+
+      <h3>
+        <p>   
+          พอกดมาที่หน้า Shared Deck ก็จะเห็น Deck ที่เราแชร์ไปมาโผล่ที่หน้านี้<br>
+          และคนอื่นก็สามารถดูตัวอย่างคำศัพท์ และยังกด Download apkg ได้เลยดีด้วย
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/shared_deck_page.png' %}" 
+      width="1050" height="250">
+      <h5>Deck ที่มีคนกด share จะมาโผล่ที่หน้า Shared Deck</h5>
+      <br>
+
+      <h3>
+        <p>   
+          และการแนะนำวิธีใช้ ก็จบลงตรงนี้ล่ะนะ ขอบคุณเพื่อนๆทึ่อ่านมาถึงตรงนี้จ้า
+        </p>
+      </h3>
+
+      <br>
+      <img src="{% static 'card_generator/images/guide_page/aisatsu_arigatou.png' %}" 
+      width="400" height="500">
+      <br><br><br>
+
+    </div>
+  </div>
+
 
 {% endblock %}
