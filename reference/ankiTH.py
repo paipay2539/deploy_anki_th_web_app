@@ -172,8 +172,8 @@ def text_convert(meaning_lst, vocab):
     return text, exactly_text
 
 
-def text2sound(vocab, sound_number, parent_path):
-    tts = gTTS(text=vocab, lang='ja')
+def text2sound(vocab, sound_number, parent_path, sound_lang):
+    tts = gTTS(text=vocab, lang=sound_lang)
     tts.save(parent_path + '/output/sound/#' + sound_number + '.mp3')
 
 
@@ -207,7 +207,7 @@ def ankiTH(input_text, gen_sound=False, exactly_mode=False, lang_select="jp"):
             if gen_sound is True:
                 sound_number = input_text_file_name + '_' + str(vocab_cnt)
                 sound_call_name = '[sound:#' + sound_number + '.mp3]'
-                text2sound(vocab, sound_number, parent_path)
+                text2sound(vocab, sound_number, parent_path, lang_select)
             else:
                 sound_call_name = ''
             vocab = '<span style="color:rgb(233, 253, 226); font-size:50px">' \
@@ -329,7 +329,7 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
             if gen_sound is True:
                 sound_number = input_text_file_name + '_' + str(vocab_cnt)
                 sound_call_name = '[sound:#' + sound_number + '.mp3]'
-                text2sound(vocab, sound_number, parent_path)
+                text2sound(vocab, sound_number, parent_path, lang_select)
             else:
                 sound_call_name = ''
             vocab = '<span style="color:rgb(233, 253, 226); font-size:50px">' \
