@@ -173,6 +173,8 @@ def text_convert(meaning_lst, vocab):
 
 
 def text2sound(vocab, sound_number, parent_path, sound_lang):
+    if sound_lang == "jp":
+        sound_lang = "ja"
     tts = gTTS(text=vocab, lang=sound_lang)
     tts.save(parent_path + '/output/sound/#' + sound_number + '.mp3')
 
