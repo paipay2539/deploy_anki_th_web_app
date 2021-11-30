@@ -13,6 +13,7 @@ import rainbow_divider_lib as rdl
 import genanki
 import random
 import time
+import datetime
 
 def progress(count, total, suffix=''):
     bar_len = 60
@@ -288,6 +289,23 @@ def main():
     # ankiTH('vocab_jp', gen_sound=True, exactly_mode=False)
     # ankiTH('vocab_en', gen_sound=True, exactly_mode=False)
 
+def second_to_time(second):
+    hour, min, sec = str(datetime.timedelta(seconds= int(second))).split(":")
+    
+    if sec[0] == "0":
+        sec = "  {}".format(sec[1])
+    if min[0] == "0":
+        min = "  {}".format(min[1])
+    
+    if int(hour) == 0 :
+        if int(min) == 0:
+            text_ouput = "{}sec".format(sec)
+        else:
+            text_ouput = "{}min {}sec".format(min, sec)
+    else:
+        text_ouput = "{}hour {}min {}sec".format(hour, min, sec)
+    return text_ouput
+
 def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select="jp"):
     
     #########################################################################################################
@@ -298,7 +316,7 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
         yield line
     loading_page_html.close()
     
-    time_capture = time.time()
+    time_capture = time.time() - 2
     acc_avg_time = 2 # avg time about 2 sec
     
     ######################################################################################################### 
@@ -356,11 +374,21 @@ def django_request(input_text, gen_sound=False, exactly_mode=False, lang_select=
         
         time_per_word = (time.time() - time_capture)
         time_capture = time.time()
-        acc_avg_time = (time_per_word + acc_avg_time)/2
+        
+        # acc_avg_time = (time_per_word + acc_avg_time)/2
+        loop_round = vocab_cnt+1
+        acc_avg_time = time_per_word*(1/loop_round)  + acc_avg_time*((loop_round-1)/loop_round)
+        
         remain_time = str(int((len(vocab_lst)-(vocab_cnt+1))*acc_avg_time))  
         yield '<script>document.getElementById("progress_text").textContent = "Progress: '+ str(vocab_cnt+1) + "/" + str(len(vocab_lst))
-        yield '   Remaining Time: ' +  remain_time  + 'sec' +'";</script>'
+        yield '   Remaining Time: ' + second_to_time(remain_time) +'";</script>'
         time.sleep(1) # hold 100 percent progress
+        
+        # อยากให้ spaceติดกันมากกว่า1แสดงผล ต้องใส่ style="white-space: pre"
+        # note accumulative average 
+        # acc = (now + acc)/2 = now*0.5 + acc*0.5 แบบนี้ผิด อันปัจจุบันจะได้ weight เยอะสุด = 0.5 รอบก่อนจะได้ 0.25 รอบก่อนๆ จะได้ 0.125 
+        # acc = now*(1/round) + acc*((round-1)/round) แบบนี้ถูก เพราะให้ weight ทุกรอบเท่ากัน round คือรอบที่เท่าไหร่  1,  2, 3, ...
+
         #############################################
     
     output.close()
